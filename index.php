@@ -58,9 +58,9 @@ switch ($match["type"]) {
     case "Controller":
         $controller = new $match["controller"]();
         if (is_null($match["parameter"])) {
-            $controller->$match["method"]();
+            call_user_func($controller->{$match["method"]}());
         } else {
-            $controller->$match["method"]($match["parameter"]);
+            call_user_func($controller->{$match["method"]}(), $match["parameter"]);
         }
         break;
 
