@@ -5,18 +5,30 @@ namespace Core\Database;
 /**
  * @author Severin Kaderli
  */
-class DatabaseConnection extends \SQLite3
+class DatabaseConnection
 {
 
-    private static $sqliteConnection;
+    /**
+     * @var \PDO
+     */
+    private static $pdo;
 
     /**
-     * Takes the name of a db file and tries to open it
+     * Connecting to a database.
      *
-     * @param string $database
+     * @param string $dbUser
+     * @param string $dbPass
+     * @param string $dbHost
+     * @param string $dbName
      */
-    public static function init($database) {
-        self::$sqliteConnection = new \SQLite3($database);
+    public static function init($dbUser, $dbPass, $dbHost, $dbName)
+    {
+        $dns = 'mysql:host=' . $dbHost . ';port=3306;dbname=' . $dbName;
+
+        self::$pdo = new \PDO($dns, $dbUser, $dbPass, [
+            \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
+            \PDO::ATTR_EMULATE_PREPARES => false
+        ]);
     }
 
     /**
@@ -24,32 +36,25 @@ class DatabaseConnection extends \SQLite3
      * @param array $parameter
      * @return array
      */
-    public static function getResult($query, array $parameter = []) {
+    public static function getResult($query, array $parameter = [])
+    {
         $result = [];
 
         //Prepare the statement and bind values
-        $stmt = self::$sqliteConnection->prepare($query);
-        foreach ($parameter as $parameter => $value) {
-            $stmt -> bindValue($parameter, $value);
-        }
+        $stmt = self::$pdo->prepare($query);
+        $stmt->execute($parameter);
 
-        //Get result and return as an array
-        $sqlResult = $stmt->execute();
-        while($tmpResult = $sqlResult->fetchArray(SQLITE3_ASSOC)){ 
-            $result[] = $tmpResult; 
-        } 
+        while ($row = $stmt->fetchObject()) {
+            $result[] = $row;
+        }
         return $result;
     }
 
-    public static function insert($query, array $parameter = []) {
+    public static function insert($query, array $parameter = [])
+    {
         //Prepare the statement and bind values
-        $stmt = self::$sqliteConnection->prepare($query);
-        foreach ($parameter as $parameter => $value) {
-            $stmt -> bindValue($parameter, $value);
-        }
-
-        //Get result and return as an array
-        $sqlResult = $stmt->execute();
+        $stmt = self::$pdo->prepare($query);
+        $stmt->execute($parameter);
     }
 
 }

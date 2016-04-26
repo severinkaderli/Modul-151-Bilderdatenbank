@@ -8,13 +8,21 @@ session_regenerate_id();
 /**
  * Debugging
  */
-define("DEBUG", false);
+define("DEBUG", true);
 
 if(DEBUG) {
     error_reporting(E_ALL);
 } else {
     error_reporting(0);
 }
+
+/**
+ * Database settings
+ */
+define("DB_HOST", "localhost");
+define("DB_USER", "root");
+define("DB_PASS", "");
+define("DB_NAME", "imagedb");
 
 /**
  * Site related settings
@@ -50,4 +58,4 @@ function classAutoload($class) {
 spl_autoload_register("classAutoload");
 
 
-Core\Database\DatabaseConnection::init(__ROOT__ . "Database/blog.db");
+Core\Database\DatabaseConnection::init(DB_USER, DB_PASS, DB_HOST, DB_NAME);
