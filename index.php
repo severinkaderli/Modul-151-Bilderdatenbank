@@ -12,7 +12,6 @@ $router->setBasePath(str_replace("http://" . $_SERVER['SERVER_NAME'], "", BASE_D
  */
 // General
 $router->addRoute("GET", "", function(){
-
     $images = Core\Model\Image::getAll();
     var_dump($images);
 });
