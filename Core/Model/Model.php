@@ -30,7 +30,7 @@ class Model
      * Finds and returns an Entity by its id
      *
      * @param int $id
-     * @return mixed
+     * @return self
      */
     public static function find($id)
     {
@@ -46,6 +46,27 @@ class Model
         }
 
         return $object;
+    }
+
+    /**
+     * Return all entities as an array
+     *
+     * @return array
+     */
+    public static function getAll() {
+        $entities = [];
+        $sqlResult = DatabaseConnection::getResult("SELECT * FROM " . static::$table);
+
+        foreach($sqlResult as $row) {
+            $object = new static();
+            foreach($row as $property => $value) {
+                $object -> $property = $value;
+            }
+
+            $entities[] = $object;
+        }
+
+        return $entities;
     }
 
     /**

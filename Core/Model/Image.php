@@ -19,29 +19,7 @@ class Image extends Model
     {
        parent::__construct();
     }
-
-
-    /**
-     * Return all posts as an array
-     *
-     * @return mixed
-     */
-    public static function getAll() {
-        $result = [];
-        $sqlResult = DatabaseConnection::getResult("SELECT * FROM comments");
-
-        foreach($sqlResult as $comment) {
-            $commentObject = new Comment();
-            $commentObject->id = $comment["id"];
-            $commentObject->comment = $comment["comment"];
-            $commentObject->fk_post_id = $comment["fk_post_id"];
-            $commentObject->fk_user_id = $comment["fk_user_id"];
-
-            $result[] = $commentObject;
-        }
-
-        return $result;
-    }
+    
 
     /**
      * Return all posts by user id as an array
