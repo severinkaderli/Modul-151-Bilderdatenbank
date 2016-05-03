@@ -13,8 +13,6 @@ class User extends Model
     public $id;
     public $username;
     public $password;
-    public $firstname;
-    public $lastname;
     public $is_admin;
 
     public function __construct()
@@ -80,32 +78,9 @@ class User extends Model
             Redirect::to("/");
         }
 
-        DatabaseConnection::insert("INSERT INTO users(username, password, firstname, lastname, is_admin) VALUES(:username, :password, :firstname, :lastname, 0)",
+        DatabaseConnection::insert("INSERT INTO users(username, password, is_admin) VALUES(:username, :password, 0)",
             ["username" => $this->username,
-                "password" => password_hash($this->password, PASSWORD_BCRYPT),
-                "firstname" => $this->firstname,
-                "lastname" => $this->lastname]);
-    }
-
-    /**
-     * Finds and returns an User by its id
-     *
-     * @param int $id
-     * @return User
-     */
-    public static function find($id)
-    {
-        $result = DatabaseConnection::getResult("SELECT * FROM users WHERE id=:id", ["id" => $id]);
-
-        $userObject = new User();
-        $userObject->id = $result[0]["id"];
-        $userObject->username = $result[0]["username"];
-        $userObject->password = $result[0]["password"];
-        $userObject->firstname = $result[0]["firstname"];
-        $userObject->lastname = $result[0]["lastname"];
-        $userObject->is_admin = $result[0]["is_admin"];
-
-        return $userObject;
+                "password" => password_hash($this->password, PASSWORD_BCRYPT)]);
     }
 
     /**
@@ -123,8 +98,6 @@ class User extends Model
             $userObject->id = $user["id"];
             $userObject->username = $user["username"];
             $userObject->password = $user["password"];
-            $userObject->firstname = $user["firstname"];
-            $userObject->lastname = $user["lastname"];
             $userObject->is_admin = $user["is_admin"];
 
             $result[] = $userObject;
@@ -147,8 +120,6 @@ class User extends Model
         $userObject->id = $result[0]["id"];
         $userObject->username = $result[0]["username"];
         $userObject->password = $result[0]["password"];
-        $userObject->firstname = $result[0]["firstname"];
-        $userObject->lastname = $result[0]["lastname"];
         $userObject->is_admin = $result[0]["is_admin"];
 
         return $userObject;

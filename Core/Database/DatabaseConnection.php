@@ -39,15 +39,23 @@ class DatabaseConnection
     public static function getResult($query, array $parameter = [])
     {
         $result = [];
+        try {
+            //Prepare the statement and bind values
+            $stmt = self::$pdo->prepare($query);
+            $stmt->execute($parameter);
 
-        //Prepare the statement and bind values
-        $stmt = self::$pdo->prepare($query);
-        $stmt->execute($parameter);
+            while ($row = $stmt->fetchObject()) {
+                $result[] = $row;
+            }
 
-        while ($row = $stmt->fetchObject()) {
-            $result[] = $row;
+            return $result;
+        } catch(\Exception $e) {
+            echo $e->getMessage();
+            echo "<br>";
+            echo $query;
+            echo "<br>";
+            echo $e->getFile() . " on Line: " . $e->getLine();
         }
-        return $result;
     }
 
     public static function insert($query, array $parameter = [])

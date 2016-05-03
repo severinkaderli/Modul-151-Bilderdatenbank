@@ -11,7 +11,11 @@ $router->setBasePath(str_replace("http://" . $_SERVER['SERVER_NAME'], "", BASE_D
  * Defined routes
  */
 // General
-$router->addRoute("GET", "", function(){echo "test";});
+$router->addRoute("GET", "", function(){
+
+    $image = Core\Model\Image::find(1);
+    var_dump($image);
+});
 
 // Authentication
 $router->addRoute("GET", "/logout", "AuthController@logout");
