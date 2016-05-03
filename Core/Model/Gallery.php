@@ -41,29 +41,6 @@ class Gallery extends Model
     }
 
     /**
-     * Return all posts as an array
-     *
-     * @return mixed
-     */
-    public static function getAll()
-    {
-        $result = [];
-        $sqlResult = DatabaseConnection::getResult("SELECT * FROM galleries ORDER BY id DESC");
-
-        foreach ($sqlResult as $gallery) {
-            $postObject = new Gallery();
-            $postObject->id = $gallery["id"];
-            $postObject->name = $gallery["name"];
-            $postObject->is_shared = $gallery["is_shared"];
-            $postObject->fk_user_id = $gallery["fk_user_id"];
-
-            $result[] = $postObject;
-        }
-
-        return $result;
-    }
-
-    /**
      * Return all posts by user id
      *
      * @param int $userId
@@ -109,13 +86,6 @@ class Gallery extends Model
             ["name" => htmlentities($fields["name"]),
                 "is_shared" => htmlentities($fields["is_shared"]),
                 "gallery_id" => $galleryId]);
-    }
-
-    /**
-     * @param int $galleryId
-     */
-    public static function delete($galleryId) {
-        DatabaseConnection::insert("DELETE FROM galleries WHERE id=:gallery_id", ["gallery_id" => $galleryId]);
     }
 
 

@@ -83,28 +83,6 @@ class User extends Model
                 "password" => password_hash($this->password, PASSWORD_BCRYPT)]);
     }
 
-    /**
-     * Return all users as an array
-     *
-     * @return array
-     */
-    public static function getAll()
-    {
-        $result = [];
-        $sqlResult = DatabaseConnection::getResult("SELECT * FROM users");
-
-        foreach ($sqlResult as $user) {
-            $userObject = new User();
-            $userObject->id = $user["id"];
-            $userObject->username = $user["username"];
-            $userObject->password = $user["password"];
-            $userObject->is_admin = $user["is_admin"];
-
-            $result[] = $userObject;
-        }
-
-        return $result;
-    }
 
     /**
      * Return an user by its username
@@ -141,10 +119,6 @@ class User extends Model
         }
 
         return false;
-    }
-
-    public static function delete($userId) {
-        DatabaseConnection::insert("DELETE FROM users WHERE id=:user_id", ["user_id" => $userId]);
     }
 
     public static function promote($userId) {

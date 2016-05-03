@@ -68,6 +68,7 @@ class Model
 
         return $entities;
     }
+    
 
     /**
      * Delete the entry with the given id from the database.
@@ -76,14 +77,6 @@ class Model
      */
     public static function delete($id) {
         DatabaseConnection::insert("DELETE FROM " . static::$table . " WHERE id=:id", ["id" => $id]);
-    }
-
-    /**
-     * @param $postId
-     * @param array $fields
-     */
-    public static function create($id, array $fields) {
-        DatabaseConnection::insert("INSERT INTO comments(comment, fk_post_id, fk_user_id) VALUES(:comment, :post_id, :user_id)", ["comment" => htmlentities($fields["comment"]), "post_id" => $postId, "user_id" => $_SESSION["user"]["id"]]);
     }
 
 
