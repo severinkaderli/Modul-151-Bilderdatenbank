@@ -16,6 +16,7 @@ $router->setBasePath(str_replace("http://" . $_SERVER['SERVER_NAME'], "", BASE_D
  */
 // General
 $router->addRoute("GET", "", "GalleryController@index");
+$router->addRoute("GET", "/gallery/{galleryId}/delete", "GalleryController@delete");
 
 // Authentication
 $router->addRoute("GET", "/logout", "AuthController@logout");

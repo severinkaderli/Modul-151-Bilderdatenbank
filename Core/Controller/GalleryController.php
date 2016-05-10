@@ -89,8 +89,9 @@ class GalleryController
     }
 
     public function delete($id){
-        $post = Gallery::find($id);
-        if($post->fk_user_id != $_SESSION["user"]["id"]) {
+        $gallery = Gallery::find($id);
+
+        if($gallery->fk_user_id != $_SESSION["user"]["id"]) {
             Redirect::to("/");
         }
         Gallery::delete($id);
