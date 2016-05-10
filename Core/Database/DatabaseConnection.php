@@ -44,7 +44,7 @@ class DatabaseConnection
             $stmt = self::$pdo->prepare($query);
             $stmt->execute($parameter);
 
-            while ($row = $stmt->fetchObject()) {
+            while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
                 $result[] = $row;
             }
 
