@@ -11,7 +11,7 @@ class Image extends Model
 {
 
     /**
-     * @var
+     * @var string
      */
     static protected $table = "images";
 

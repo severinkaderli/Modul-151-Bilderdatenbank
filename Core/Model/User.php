@@ -10,6 +10,10 @@ use Core\Routing\Redirect;
  */
 class User extends Model
 {
+    /**
+     * @var string
+     */
+    static protected $table = "users";
 
     public function __construct()
     {

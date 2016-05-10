@@ -12,25 +12,11 @@ use Core\Database\DatabaseConnection;
  */
 class Gallery extends Model
 {
-    /**
-     * @var int
-     */
-    public $id;
 
     /**
      * @var string
      */
-    public $name;
-
-    /**
-     * @var int
-     */
-    public $is_shared;
-
-    /**
-     * @var int
-     */
-    public $fk_user_id;
+    static protected $table = "galleries";
 
     /**
      * Gallery constructor.
