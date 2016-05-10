@@ -13,10 +13,6 @@ foreach ($this->galleries as $gallery) {
     }
     echo "</small></h1>";
     echo "</header>";
-
-    echo "<div class='post__content'>";
-    echo "<p>" . nl2br($gallery->content) . "</p>";
-    echo "</div>";
     echo "</div>";
 }
 

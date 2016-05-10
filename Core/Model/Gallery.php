@@ -55,10 +55,10 @@ class Gallery extends Model
     public static function create(array $fields)
     {
         DatabaseConnection::insert("INSERT INTO galleries(name, is_shared, fk_user_id)
-              VALUES(:name, :is_shared, :user_id)",
-            ["name" => htmlentities($fields["name"]),
-                "is_shared" => htmlentities($fields["is_shared"]),
-                "user_id" => $_SESSION["user"]["id"]]);
+              VALUES(:name, :is_shared, :fk_user_id)",
+            [":name" => htmlentities($fields["name"]),
+                ":is_shared" => 0,
+                ":fk_user_id" => $_SESSION["user"]["id"]]);
     }
 
     /**

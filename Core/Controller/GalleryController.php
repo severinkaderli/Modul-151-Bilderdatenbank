@@ -57,7 +57,7 @@ class GalleryController
     }
 
     public function create() {
-        $view = new View("posts.create");
+        $view = new View("galleries.create");
         $view->render();
     }
 

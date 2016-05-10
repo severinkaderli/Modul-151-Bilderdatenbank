@@ -7,12 +7,10 @@
     <title><?php echo SITE_TITLE; ?> - <?php echo SITE_AUTHOR; ?></title>
     <!-- Styles -->
     <link rel="stylesheet" type="text/css" href="Assets/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="Assets/css/prism.css">
     <link rel="stylesheet" type="text/css" href="Assets/css/style.css">
     <!-- Scripts -->
     <script src="Assets/js/jquery-2.1.4.min.js"></script>
     <script src="Assets/js/bootstrap.min.js"></script>
-    <script src="Assets/js/prism.js"></script>
 </head>
 <body>
 <nav class="navbar navbar-inverse">
@@ -37,7 +35,7 @@
                 <li class="nav-divider"></li>
                 <?php
                 if (Core\Model\User::auth()) {
-                    echo "<li><a href='create'>Eintrag erstellen</a></li>";
+                    echo "<li><a href='gallery/create'>Galerie erstellen</a></li>";
                     if(Core\Model\User::isAdmin()) {
                         echo "<li><a href='users'>Benutzerverwaltung</a></li>";
                     }
