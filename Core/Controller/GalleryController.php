@@ -68,20 +68,20 @@ class GalleryController
 
     public function edit($id) {
         //Check if user is allowed to delete the post
-        $post = Gallery::find($id);
-        if($_SESSION["user"]["id"] != $post->fk_user_id) {
+        $gallery = Gallery::find($id);
+        if($_SESSION["user"]["id"] != $gallery->fk_user_id) {
             Redirect::to("/");
         }
 
-        $view = new View("posts.edit");
-        $view->assign("post", $post);
+        $view = new View("galleries.edit");
+        $view->assign("gallery", $gallery);
         $view->render();
     }
 
     public function update($id) {
         //Check if user is allowed to delete the post
-        $post = Gallery::find($id);
-        if($_SESSION["user"]["id"] != $post->fk_user_id) {
+        $gallery = Gallery::find($id);
+        if($_SESSION["user"]["id"] != $gallery->fk_user_id) {
             Redirect::to("/");
         }
         Gallery::update($id, $_POST);

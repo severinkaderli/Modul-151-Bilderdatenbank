@@ -8,7 +8,7 @@ foreach ($this->galleries as $gallery) {
     if (isset($_SESSION["user"]["id"])) {
         if ($gallery->fk_user_id == $_SESSION["user"]["id"]) {
             echo " <a onclick='return confirm_delete()' href='gallery/".$gallery->id."/delete'><span class='glyphicon glyphicon-trash' aria-hidden='true'></span></a> ";
-            echo "<a href='post/".$gallery->id."/edit'><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span></a> ";
+            echo "<a href='gallery/".$gallery->id."/edit'><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span></a> ";
         }
     }
     echo "</small></h1>";

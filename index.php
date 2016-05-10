@@ -19,6 +19,8 @@ $router->addRoute("GET", "", "GalleryController@index");
 $router->addRoute("GET", "/gallery/{galleryId}/delete", "GalleryController@delete");
 $router->addRoute("GET", "/gallery/create", "GalleryController@create");
 $router->addRoute("POST", "/gallery", "GalleryController@store");
+$router->addRoute("GET", "/gallery/{galleryId}/edit", "GalleryController@edit");
+$router->addRoute("POST", "/gallery/{galleryId}/update", "GalleryController@update");
 
 // Authentication
 $router->addRoute("GET", "/logout", "AuthController@logout");

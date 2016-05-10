@@ -55,10 +55,10 @@ class Gallery extends Model
     public static function create(array $fields)
     {
         DatabaseConnection::insert("INSERT INTO galleries(name, is_shared, fk_user_id)
-              VALUES(:name, :is_shared, :fk_user_id)",
+              VALUES(:name, :is_shared, :user_id)",
             [":name" => htmlentities($fields["name"]),
                 ":is_shared" => 0,
-                ":fk_user_id" => $_SESSION["user"]["id"]]);
+                ":user_id" => $_SESSION["user"]["id"]]);
     }
 
     /**
@@ -68,9 +68,9 @@ class Gallery extends Model
     public static function update($galleryId, array $fields)
     {
         DatabaseConnection::insert("UPDATE galleries SET name=:name, is_shared=:is_shared WHERE id=:gallery_id",
-            ["name" => htmlentities($fields["name"]),
-                "is_shared" => htmlentities($fields["is_shared"]),
-                "gallery_id" => $galleryId]);
+            [":name" => htmlentities($fields["name"]),
+                ":is_shared" => 0,
+                ":gallery_id" => $galleryId]);
     }
 
 
