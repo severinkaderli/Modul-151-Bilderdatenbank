@@ -1,19 +1,26 @@
 <?php
 require_once("./config.php");
 
+use Core\Routing\Router;
+use Core\View\View;
+
 /**
  * This file is used to set up the bootstrapping using routes.
  */
-$router = new Core\Routing\Router();
+$router = new Router();
 $router->setBasePath(str_replace("http://" . $_SERVER['SERVER_NAME'], "", BASE_DIR));
 
 /**
  * Defined routes
  */
 // General
-$router->addRoute("GET", "", function(){
-    $images = Core\Model\Image::getAll();
-    var_dump($images);
+$router->addRoute("GET", "", function () {
+    // If user is not logged in redirect him to the login page
+    if(!\Core\Model\User::auth()) {
+        \Core\Routing\Redirect::to("/login");
+    }
+    $view = new View("galleries.index");
+    $view->render();
 });
 
 // Authentication
@@ -33,7 +40,7 @@ $router->addRoute("GET", "/user/{userId}/promote", "UserController@promote");
  */
 $match = $router->dispatch();
 
-if(DEBUG) {
+if (DEBUG) {
     echo "<pre>";
     var_dump($match);
     echo "</pre>";

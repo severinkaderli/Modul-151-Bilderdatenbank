@@ -56,8 +56,6 @@ class AuthController
             //Todo: Validation of user input and sanitation.
             $user = new User();
             $user->username = $_POST["username"];
-            $user->firstname = $_POST["firstname"];
-            $user->lastname = $_POST["lastname"];
             $user->password = $_POST["password"];
             $user->isAdmin = 0;
 

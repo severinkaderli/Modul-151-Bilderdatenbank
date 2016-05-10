@@ -10,10 +10,6 @@ use Core\Routing\Redirect;
  */
 class User extends Model
 {
-    public $id;
-    public $username;
-    public $password;
-    public $is_admin;
 
     public function __construct()
     {

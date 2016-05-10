@@ -3,16 +3,8 @@
 <h1>Registrieren</h1>
 <form method="POST" action="register">
     <div class="form-group">
-        <label for="username">Benutzername</label>
+        <label for="username">Benutzername (E-Mail)</label>
         <input type="text" name="username" id="username" class="form-control" required>
-    </div>
-    <div class="form-group">
-        <label for="firstname">Vorname</label>
-        <input type="text" name="firstname" id="firstname" class="form-control" required>
-    </div>
-    <div class="form-group">
-        <label for="lastname">Nachname</label>
-        <input type="text" name="lastname" id="lastname" class="form-control" required>
     </div>
     <div class="form-group">
         <label for="password">Passwort</label>

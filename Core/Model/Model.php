@@ -68,7 +68,7 @@ class Model
 
         return $entities;
     }
-    
+
 
     /**
      * Delete the entry with the given id from the database.

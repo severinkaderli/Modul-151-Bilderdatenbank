@@ -27,7 +27,7 @@ define("DB_NAME", "imagedb");
 /**
  * Site related settings
  */
-define("SITE_TITLE", "Blog");
+define("SITE_TITLE", "Bilderdatenbank");
 define("SITE_AUTHOR", "Severin Kaderli");
 
 /**
