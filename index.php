@@ -3,6 +3,7 @@ require_once("./config.php");
 
 use Core\Routing\Router;
 use Core\View\View;
+use Core\Model\Gallery;
 
 /**
  * This file is used to set up the bootstrapping using routes.
@@ -14,14 +15,7 @@ $router->setBasePath(str_replace("http://" . $_SERVER['SERVER_NAME'], "", BASE_D
  * Defined routes
  */
 // General
-$router->addRoute("GET", "", function () {
-    // If user is not logged in redirect him to the login page
-    if(!\Core\Model\User::auth()) {
-        \Core\Routing\Redirect::to("/login");
-    }
-    $view = new View("galleries.index");
-    $view->render();
-});
+$router->addRoute("GET", "", "GalleryController@index");
 
 // Authentication
 $router->addRoute("GET", "/logout", "AuthController@logout");
@@ -54,9 +48,9 @@ switch ($match["type"]) {
     case "Controller":
         $controller = new $match["controller"]();
         if (is_null($match["parameter"])) {
-            call_user_func($controller->{$match["method"]}());
+            $controller->{$match["method"]}();
         } else {
-            call_user_func($controller->{$match["method"]}(), $match["parameter"]);
+            $controller->{$match["method"]}($match["parameter"]);
         }
         break;
 

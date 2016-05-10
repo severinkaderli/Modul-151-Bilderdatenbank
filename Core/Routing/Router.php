@@ -158,6 +158,7 @@ class Router
                     $returnArray["type"] = "Controller";
 
                     $controllerCallback = explode("@", $route["callback"]);
+
                     if (count($controllerCallback) !== 2) {
                         return ["type" => "error"];
                     }

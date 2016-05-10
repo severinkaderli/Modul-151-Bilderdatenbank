@@ -3,24 +3,26 @@
 namespace Core\Controller;
 
 use Core\Routing\Redirect;
-use Core\Model\Post;
+use Core\Model\Gallery;
 use Core\Model\User;
-use Core\Model\Comment;
 use Core\View\View;
 
-class PostController
+class GalleryController
 {
     /**
      * Renders a listing of all blog posts. Only posts of the current page
      * are shown.
      *
-     * @param int $page
      */
-    public function index($page = 1)
+    public function index()
     {
-        //Todo: Manage page handling
-        $view = new View("posts.index");
-        $view->assign("posts", Post::getAll());
+        // If user is not logged in redirect him to the login page
+        if (!User::auth()) {
+            Redirect::to("/login");
+        }
+
+        $view = new View("galleries.index");
+        $view->assign("galleries", Gallery::getByUserId($_SESSION["user"]["id"]));
         $view->render();
     }
 
@@ -40,28 +42,17 @@ class PostController
         if (!is_numeric($id)) {
             Redirect::to("/");
         }
-        $post = Post::find($id);
+        $post = Gallery::find($id);
         if (is_null($post)) {
             Redirect::to("/");
         }
 
         /**
-         * Get the user associatd with the blog post
-         */
-        $postUser = User::find($post->fk_user_id);
-
-        /**
-         * Get all comments of this blog post
-         */
-        $comments = Comment::getByPostId($post->id);
-
-        /**
          * Assign variables to view and render it
          */
         $view = new View("posts.show");
-        $view->assign("post", $post);
-        $view->assign("postUser", $postUser);
-        $view->assign("comments", $comments);
+        $view->assign("gallery", $gallery);
+        $view->assign("images", Image::getByGalleryId($gallery->id));
         $view->render();
     }
 
@@ -71,13 +62,13 @@ class PostController
     }
 
     public function store() {
-        Post::create($_POST);
+        Gallery::create($_POST);
         Redirect::to("/");
     }
 
     public function edit($id) {
         //Check if user is allowed to delete the post
-        $post = Post::find($id);
+        $post = Gallery::find($id);
         if($_SESSION["user"]["id"] != $post->fk_user_id) {
             Redirect::to("/");
         }
@@ -89,20 +80,20 @@ class PostController
 
     public function update($id) {
         //Check if user is allowed to delete the post
-        $post = Post::find($id);
+        $post = Gallery::find($id);
         if($_SESSION["user"]["id"] != $post->fk_user_id) {
             Redirect::to("/");
         }
-        Post::update($id, $_POST);
+        Gallery::update($id, $_POST);
         Redirect::to("/");
     }
 
     public function delete($id){
-        $post = Post::find($id);
+        $post = Gallery::find($id);
         if($post->fk_user_id != $_SESSION["user"]["id"]) {
             Redirect::to("/");
         }
-        Post::delete($id);
+        Gallery::delete($id);
         Redirect::to("/");
     }
 }

@@ -52,13 +52,12 @@ class Gallery extends Model
         $sqlResult = DatabaseConnection::getResult("SELECT * FROM galleries WHERE fk_user_id=:user_id", ["user_id" => $userId]);
 
         foreach ($sqlResult as $gallery) {
-            $postObject = new Gallery();
-            $postObject->id = $gallery["id"];
-            $postObject->name = $gallery["name"];
-            $postObject->is_shared = $gallery["is_shared"];
-            $postObject->fk_user_id = $gallery["fk_user_id"];
+            $object = new Gallery();
+            foreach($gallery as $attribute => $value) {
+                $object -> $attribute = $value;
+            }
 
-            $result[] = $postObject;
+            $result[] = $object;
         }
 
         return $result;
