@@ -3,6 +3,7 @@
 namespace Core\Controller;
 
 use Core\Routing\Redirect;
+use Core\Utility\MessageHandler;
 use Core\Model\Gallery;
 use Core\Model\Image;
 use Core\Model\User;
@@ -104,6 +105,10 @@ class GalleryController
         Redirect::to("/");
     }
 
+    /**
+     * Uploads one or multiple image to the given gallery.
+     * 
+     */
     public function upload($id)
     {
         if (DEBUG) {
@@ -113,38 +118,45 @@ class GalleryController
         }
 
         for ($i = 0, $length = count($_FILES["files"]["name"]); $i < $length; $i++) {
+
+            // Check if there were any errors during the upload.
             if ($_FILES["files"]["error"][$i] !== UPLOAD_ERR_OK) {
-                //Error:
-                echo "upload error";
-                return;
+                MessageHandler::add("An error occurred during upload. Please try again!", MessageHandler::STATUS_DANGER);
+                Redirect::to("/");
             }
 
+            // Check if the file is an image using the getimagesize() function.
             $imageInfo = getimagesize($_FILES["files"]['tmp_name'][$i]);
             if ($imageInfo === false) {
                 //ERROR: NOT IMAGE
-                echo "not image";
-                return;
+                MessageHandler::add("Please upload an image (.png, .jpg, .gif)!", MessageHandler::STATUS_DANGER);
+                Redirect::to("/");
             }
 
-
+            // Check if image is one of the supported formats.
             if (($imageInfo[2] !== IMAGETYPE_GIF) && ($imageInfo[2] !== IMAGETYPE_JPEG) && ($imageInfo[2] !== IMAGETYPE_PNG)) {
-                //ERROR: NOT GIF; JPEG OR PNG
-                echo "not gif, jpeg or png";
-                return;
+                MessageHandler::add("Please upload a supported image (.png, .jpg, .gif)!", MessageHandler::STATUS_DANGER);
+                Redirect::to("/");
             }
 
+            // Create a unique file name for the image
             $fileParts = explode(".", $_FILES["files"]["name"][$i]);
             $fileName = uniqid() . "." . end($fileParts);
+            $fullPath = __ROOT__ . "upload/images/" . "full_" . $fileName;
+            $thumbPath = __ROOT__ . "upload/images/" . "thumb_" . $fileName
 
-            echo "Filename: " . $fileName;
-            if (!move_uploaded_file($_FILES["files"]["tmp_name"][$i], __ROOT__ . "upload/images/" . "full_" . $fileName)) {
-                echo "ERROR: MOVING FILE";
+            // Move the uploaded file to the /upload/images folder
+            if (!move_uploaded_file($_FILES["files"]["tmp_name"][$i], $fullPath)) {
+                MessageHandler::add("An error occurred during upload. Please try again!", MessageHandler::STATUS_DANGER);
+                Redirect::to("/");
             }
 
-            $imagick = new \Imagick(__ROOT__ . "upload/images/" . "full_" . $fileName);
+            // Create a thumbnail (100x100) from the uploaded image
+
+            /*$imagick = new \Imagick(__ROOT__ . "upload/images/" . "full_" . $fileName);
             $imagick->thumbnailImage(100, 100, true, true);
             $imagick->writeImage(__ROOT__ . "upload/images/" . "thumb_" . $fileName);
-
+*/
             // Create thumbnail and save both picture in /upload/images -> full_32432432.jpg & thumb_323423432.jpg
 
             //move_uploaded_file()

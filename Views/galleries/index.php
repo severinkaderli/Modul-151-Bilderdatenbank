@@ -1,5 +1,10 @@
 <?php
+
+use Core\Utility\MessageHandler;
+
 require_once(__ROOT__ . "Views/_header.php");
+
+MessageHandler::display();
 
 foreach ($this->galleries as $gallery) {
     echo "<div class='gallery'>";
