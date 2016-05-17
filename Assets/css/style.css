@@ -2,15 +2,34 @@
     max-width: 960px;
 }
 
+.clearfix {
+	clear: both;
+}
+
 #footer {
+	margin-top: 10px;
     text-align: center;
 }
 
-.post {
-    border-bottom: 1px dotted black;
+/**
+ * Galleries
+ */
+.gallery__header > h1 {
+	border-bottom: 1px solid black;
 }
 
-.comment__header {
-    font-size: 1.1em;
-    font-weight: bold;
+.single-image {
+	max-width: 100%;
+	height: auto;
+}
+
+.image-tags {
+	margin: 10px 0;
+	font-size: 1.5em;
+}
+
+
+.gallery-image {
+	float: left;
+	margin: 5px;
 }

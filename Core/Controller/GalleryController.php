@@ -28,36 +28,6 @@ class GalleryController
         $view->render();
     }
 
-    /**
-     * Show a single post by postId.
-     *
-     * @param int $id
-     * @return View
-     */
-    public function show($id)
-    {
-        /**
-         * Check if the postId is valid and if a post with that id
-         * exists. If no post can be found the user will be redirected to the
-         * index page.
-         */
-        if (!is_numeric($id)) {
-            Redirect::to("/");
-        }
-        $gallery = Gallery::find($id);
-        if (is_null($gallery)) {
-            Redirect::to("/");
-        }
-
-        /**
-         * Assign variables to view and render it
-         */
-        $view = new View("galleries.show");
-        $view->assign("gallery", $gallery);
-        //$view->assign("images", Image::getByGalleryId($gallery->id));
-        $view->render();
-    }
-
     public function create()
     {
         $view = new View("galleries.create");
@@ -101,6 +71,18 @@ class GalleryController
         if ($gallery->fk_user_id != $_SESSION["user"]["id"]) {
             Redirect::to("/");
         }
+
+        // Delete all the images of this gallery
+        $images = Image::getByGalleryId($id);
+        foreach($images as $image) {
+            // Delete images from disk
+            unlink(__ROOT__ . $image->image_path);
+            unlink(__ROOT__ . $image->thumbnail_path);
+
+            // Delete the image from the db
+            Image::delete($id);
+        }
+
         Gallery::delete($id);
         Redirect::to("/");
     }

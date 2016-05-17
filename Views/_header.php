@@ -52,5 +52,4 @@
 
 <div class="container">
     <!-- Main Content -->
-
-	   
+    <?php \Core\Utility\MessageHandler::display();?> 

@@ -20,32 +20,34 @@ class MessageHandler
 
 	public static function display()
 	{
-		if(!is_null($_SESSION["messages"])) {
-			foreach($_SESSION["messages"] as $message) {
-				$alertClass = "alert-success";
-				switch($message["status"]) {
-					case MessageHandler::STATUS_SUCCESS:
-						$alertClass = "alert-success";
-						break;
+		if(isset($_SESSION["messages"])) {
+			if(!is_null($_SESSION["messages"])) {
+				foreach($_SESSION["messages"] as $message) {
+					$alertClass = "alert-success";
+					switch($message["status"]) {
+						case MessageHandler::STATUS_SUCCESS:
+							$alertClass = "alert-success";
+							break;
 
-					case MessageHandler::STATUS_INFO:
-						$alertClass = "alert-info";
-						break;
+						case MessageHandler::STATUS_INFO:
+							$alertClass = "alert-info";
+							break;
 
-					case MessageHandler::STATUS_WARNING:
-						$alertClass = "alert-warning";
-						break;
+						case MessageHandler::STATUS_WARNING:
+							$alertClass = "alert-warning";
+							break;
 
-					case MessageHandler::STATUS_DANGER:
-						$alertClass = "alert-danger";
-						break;
+						case MessageHandler::STATUS_DANGER:
+							$alertClass = "alert-danger";
+							break;
 
-					default:
-						$alertClass = "alert-success";
-						break;
+						default:
+							$alertClass = "alert-success";
+							break;
+					}
+
+					echo "<div class='alert " . $alertClass . "'><a href='#' class='close' data-dismiss='alert'>&times;</a>" . $message["message"] . "</div>";
 				}
-
-				echo "<div class='alert " . $alertClass . "'><a href='#' class='close' data-dismiss='alert'>&times;</a>" . $message["message"] . "</div>";
 			}
 		}
 		self::clear();

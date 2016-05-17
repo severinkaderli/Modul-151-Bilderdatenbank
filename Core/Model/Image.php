@@ -20,29 +20,10 @@ class Image extends Model
        parent::__construct();
     }
 
-
     /**
-     * Return all posts by user id as an array
-     *
-     * @return mixed
+     * @param  array  $fields
+     * @return void
      */
-    public static function getByUserId($userId) {
-        $result = [];
-        $sqlResult = DatabaseConnection::getResult("SELECT * FROM comments WHERE fk_user_id=:user_id", ["user_id" => $userId]);
-
-        foreach($sqlResult as $comment) {
-            $commentObject = new Comment();
-            $commentObject->id = $comment["id"];
-            $commentObject->comment = $comment["comment"];
-            $commentObject->fk_post_id = $comment["fk_post_id"];
-            $commentObject->fk_user_id = $comment["fk_user_id"];
-
-            $result[] = $commentObject;
-        }
-
-        return $result;
-    }
-
     public static function create(array $fields) {
         DatabaseConnection::insert("INSERT INTO images(image_path, thumbnail_path, fk_gallery_id) VALUES(:image_path, :thumbnail_path, :gallery_id)", ["image_path" => $fields["image_path"], "thumbnail_path" => $fields["thumbnail_path"], "gallery_id" => $fields["gallery_id"]]);
     }
@@ -51,9 +32,10 @@ class Image extends Model
      * Return comments by post id
      *
      * @param int $galleryId
-     * @return \Core\Model\Image
+     * @return array
      */
-    public static function getByGalleryId(int $galleryId) {
+    public static function getByGalleryId(int $galleryId) : array
+    {
         $images = [];
         $sqlResult = DatabaseConnection::getResult("SELECT * FROM images WHERE fk_gallery_id=:galleryId", ["galleryId" => $galleryId]);
 
