@@ -43,31 +43,31 @@ class Image extends Model
         return $result;
     }
 
-    public static function create($postId, array $fields) {
-        DatabaseConnection::insert("INSERT INTO comments(comment, fk_post_id, fk_user_id) VALUES(:comment, :post_id, :user_id)", ["comment" => htmlentities($fields["comment"]), "post_id" => $postId, "user_id" => $_SESSION["user"]["id"]]);
+    public static function create(array $fields) {
+        DatabaseConnection::insert("INSERT INTO images(image_path, thumbnail_path, fk_gallery_id) VALUES(:image_path, :thumbnail_path, :gallery_id)", ["image_path" => $fields["image_path"], "thumbnail_path" => $fields["thumbnail_path"], "gallery_id" => $fields["gallery_id"]]);
     }
 
     /**
      * Return comments by post id
      *
-     * @param int $postId
-     * @return mixed
+     * @param int $galleryId
+     * @return \Core\Model\Image
      */
-    public static function getByPostId($postId) {
-        $result = [];
-        $sqlResult = DatabaseConnection::getResult("SELECT * FROM comments WHERE fk_post_id=:postId", ["postId" => $postId]);
+    public static function getByGalleryId(int $galleryId) {
+        $images = [];
+        $sqlResult = DatabaseConnection::getResult("SELECT * FROM images WHERE fk_gallery_id=:galleryId", ["galleryId" => $galleryId]);
 
-        foreach($sqlResult as $comment) {
-            $commentObject = new Comment();
-            $commentObject->id = $comment["id"];
-            $commentObject->comment = $comment["comment"];
-            $commentObject->fk_post_id = $comment["fk_post_id"];
-            $commentObject->fk_user_id = $comment["fk_user_id"];
+        foreach($sqlResult as $row) {
+            $image = new Image();
 
-            $result[] = $commentObject;
+            foreach($row as $property => $value) {
+                $image -> $property = $value;
+            }
+
+            $images[] = $image;
         }
 
-        return $result;
+        return $images;
     }
 
 }

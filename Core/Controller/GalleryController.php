@@ -141,9 +141,11 @@ class GalleryController
 
             // Create a unique file name for the image
             $fileParts = explode(".", $_FILES["files"]["name"][$i]);
-            $fileName = uniqid() . "." . end($fileParts);
-            $fullPath = __ROOT__ . "upload/images/" . "full_" . $fileName;
-            $thumbPath = __ROOT__ . "upload/images/" . "thumb_" . $fileName
+            $fileName = strtolower(uniqid() . "." . end($fileParts));
+            $dbFullPath = "upload/images/" . "full_" . $fileName;
+            $dbThumbPath = "upload/images/" . "thumb_" . $fileName;
+            $fullPath = __ROOT__ . $dbFullPath;
+            $thumbPath = __ROOT__ . $dbThumbPath;
 
             // Move the uploaded file to the /upload/images folder
             if (!move_uploaded_file($_FILES["files"]["tmp_name"][$i], $fullPath)) {
@@ -152,15 +154,54 @@ class GalleryController
             }
 
             // Create a thumbnail (100x100) from the uploaded image
+            $thumbnailWidth = 100;
+            $thumbnailHeight = 100;
 
-            /*$imagick = new \Imagick(__ROOT__ . "upload/images/" . "full_" . $fileName);
-            $imagick->thumbnailImage(100, 100, true, true);
-            $imagick->writeImage(__ROOT__ . "upload/images/" . "thumb_" . $fileName);
-*/
-            // Create thumbnail and save both picture in /upload/images -> full_32432432.jpg & thumb_323423432.jpg
+            // Get original dimensions of the image
+            $width = $imageInfo[0];
+            $height = $imageInfo[1];
 
-            //move_uploaded_file()
-            //UPLOAD the image
+            // Keep the aspect ratio of the image when resizing it to a thumbnail
+            if ( $width > $height) {
+                $imageWidth = $thumbnailWidth;
+                $imageHeight = intval($height * $imageWidth / $width);
+            } else {
+                $imageHeight = $thumbnailHeight;
+                $imageWidth = intval($width * $imageHeight / $height);
+            }
+
+            // Get the correct PHP function for creating the image
+            switch($imageInfo[2]) {
+                case IMAGETYPE_GIF:
+                    $imageSaveFunction = "ImageGIF";
+                    $imageCreateFunction = "ImageCreateFromGIF";
+                    break;
+
+                case IMAGETYPE_JPEG:
+                    $imageSaveFunction = "ImageJPEG";
+                    $imageCreateFunction = "ImageCreateFromJPEG";
+                    break;
+
+                case IMAGETYPE_PNG:
+                    $imageSaveFunction = "ImagePNG";
+                    $imageCreateFunction = "ImageCreateFromPNG";
+                    break;
+            }
+
+            $fullImage = $imageCreateFunction($fullPath);
+            $thumbImage = imagecreatetruecolor($imageWidth, $imageHeight);
+            imagecopyresized($thumbImage, $fullImage, 0, 0, 0, 0, $imageWidth, $imageHeight, $width, $height);
+            $imageSaveFunction($thumbImage, $thumbPath);
+
+            // Add image to the database
+            Image::create([
+                "image_path" =>$dbFullPath,
+                "thumbnail_path" => $dbThumbPath,
+                "gallery_id" => $id
+            ]);
+            
         }
+
+        Redirect::to("/gallery/" . $id);
     }
 }

@@ -1,12 +1,14 @@
 <?php
 
 use Core\Utility\MessageHandler;
+use Core\Model\Image;
 
 require_once(__ROOT__ . "Views/_header.php");
 
 MessageHandler::display();
 
 foreach ($this->galleries as $gallery) {
+    $images = Image::getByGalleryId($gallery->id);
     echo "<div class='gallery'>";
     echo "<header class='gallery__header'>";
     echo "<h1><a href='gallery/" . $gallery->id . "'>".$gallery->name. "</a><small class='pull-right'>";
@@ -18,6 +20,9 @@ foreach ($this->galleries as $gallery) {
     }
     echo "</small></h1>";
     echo "</header>";
+    foreach($images as $image) {
+        echo "<div><img style='float:left' src='" . $image->thumbnail_path . "'></div>";
+    }
     echo "</div>";
 }
 

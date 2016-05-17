@@ -1,1 +1,4 @@
 .idea/
+upload/**/*.png
+upload/**/*.jpg
+upload/**/*.gif
