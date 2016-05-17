@@ -49,6 +49,22 @@ class Gallery extends Model
         return $result;
     }
 
+    public static function share($galleryId)
+    {
+        DatabaseConnection::insert("UPDATE galleries SET is_shared=:is_shared WHERE id=:gallery_id",[
+            "is_shared" => 1,
+            "gallery_id" => $galleryId
+        ]);
+    }
+
+    public static function unShare($galleryId)
+    {
+        DatabaseConnection::insert("UPDATE galleries SET is_shared=:is_shared WHERE id=:gallery_id",[
+            "is_shared" => 0,
+            "gallery_id" => $galleryId
+        ]);
+    }
+
     /**
      * @param array $fields
      */

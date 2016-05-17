@@ -7,7 +7,7 @@ foreach ($this->galleries as $gallery) {
     $images = Image::getByGalleryId($gallery->id);
     echo "<div class='gallery'>";
     echo "<header class='gallery__header'>";
-    echo "<h1>".$gallery->name. "<small class='pull-right'>";
+    echo "<h1>".$gallery->name. "<small class='pull-right'>is_shared=" . $gallery->is_shared;
     if (isset($_SESSION["user"]["id"])) {
         if ($gallery->fk_user_id == $_SESSION["user"]["id"]) {
             echo " <a onclick='return confirm_delete()' href='gallery/".$gallery->id."/delete'><span class='glyphicon glyphicon-trash' aria-hidden='true'></span></a> ";

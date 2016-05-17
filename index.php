@@ -22,6 +22,8 @@ $router->addRoute("POST", "/gallery", "GalleryController@store");
 $router->addRoute("GET", "/gallery/{galleryId}/edit", "GalleryController@edit");
 $router->addRoute("POST", "/gallery/{galleryId}/update", "GalleryController@update");
 $router->addRoute("POST", "/gallery/{galleryId}/upload", "GalleryController@upload");
+$router->addRoute("GET", "/gallery/{galleryId}/share", "GalleryController@share");
+$router->addRoute("GET", "/gallery/{galleryId}/unshare", "GalleryController@unShare");
 
 $router->addRoute("GET", "/image/{imageId}", "ImageController@show");
 

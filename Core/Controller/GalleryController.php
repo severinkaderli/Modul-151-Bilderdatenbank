@@ -87,6 +87,18 @@ class GalleryController
         Redirect::to("/");
     }
 
+    public function share($id)
+    {
+        Gallery::share($id);
+        Redirect::to("/gallery/" . $id);
+    }
+
+    public function unShare($id)
+    {
+        Gallery::unShare($id);
+        Redirect::to("/gallery/" . $id);
+    }
+
     /**
      * Uploads one or multiple image to the given gallery.
      * 
