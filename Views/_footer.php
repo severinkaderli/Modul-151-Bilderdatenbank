@@ -3,8 +3,11 @@
 </footer>
 </div>
 <script>
-    function confirm_delete() {
-        return confirm('Möchten Sie wirklich löschen?');
+    function confirm_delete(message) {
+    	if(!message) {
+    		message = "Do you really want to delete?";
+    	}
+        return confirm(message);
     }
 </script>
 </body>
