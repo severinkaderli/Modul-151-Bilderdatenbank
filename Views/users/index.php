@@ -29,7 +29,7 @@ foreach ($this->users as $user) {
         }
 
         if($user->id != $_SESSION["user"]["id"]) {
-            echo "<td><a onclick='return confirm_delete()' href='user/" . $user->id . "/delete'><span class='glyphicon glyphicon-trash'></span></a></td>";
+            echo "<td><a onclick='return confirm_delete(\"Do you really want to delete this user?\")' href='user/" . $user->id . "/delete'><span class='glyphicon glyphicon-trash'></span></a></td>";
         } else {
             echo "<td> - </td>";
         }

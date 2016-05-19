@@ -3,6 +3,7 @@
 namespace Core\Model;
 
 use Core\Database\DatabaseConnection;
+use Core\Utility\MessageHandler;
 use Core\Routing\Redirect;
 
 /**
@@ -65,6 +66,8 @@ class User extends Model
             Redirect::to("/");
         }
 
+        // Password or username are not valid
+        MessageHandler::add("Username or password is invalid!", MessageHandler::STATUS_WARNING);
         Redirect::to("/login");
     }
 
@@ -73,14 +76,61 @@ class User extends Model
      */
     public function register()
     {
-
+        // Check if the E-Mail is already taken
         if (User::exists($this->username)) {
+            MessageHandler::add("This E-Mail is already taken! Please use another one!", MessageHandler::STATUS_WARNING);
             Redirect::to("/");
         }
 
+        // Insert the new user in the database
         DatabaseConnection::insert("INSERT INTO users(username, password, is_admin) VALUES(:username, :password, 0)",
             ["username" => $this->username,
                 "password" => password_hash($this->password, PASSWORD_BCRYPT)]);
+    }
+
+    /**
+     * Deletes the user with the given id.
+     * 
+     * @param  int $id
+     * @return void
+     */
+    public static function delete($id)
+    {
+        parent::delete($id);
+        $galleries = Gallery::getByUserId($id);
+        foreach($galleries as $gallery) {
+            Gallery::delete($gallery->id);
+        }
+    }
+
+    /**
+     * Updates the password of the user.
+     * 
+     * @param  int $id - The id of the user
+     * @param  string $oldPassword
+     * @param  string $newPassword
+     * @return void
+     */
+    public function changePassword($oldPassword, $newPassword)
+    {
+        // Check if the old password is incorrect
+        var_dump($oldPassword);
+        var_dump($newPassword);
+        var_dump($this->id);
+        if(password_verify($oldPassword, $this->password)) {
+
+            // Update the password in the database.
+            DatabaseConnection::insert("UPDATE users SET password=:password WHERE id=:id", [
+                ":password" => password_hash($newPassword, PASSWORD_BCRYPT),
+                ":id" => $this->id
+            ]);
+
+            MessageHandler::add("Password was successfully updated!", MessageHandler::STATUS_SUCCESS);
+            Redirect::to("/settings");
+        }
+
+        MessageHandler::add("Old password is incorrect!", MessageHandler::STATUS_WARNING);
+        Redirect::to("/settings/password");
     }
 
 

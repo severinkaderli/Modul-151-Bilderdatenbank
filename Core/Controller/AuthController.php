@@ -2,6 +2,7 @@
 
 namespace Core\Controller;
 
+use Core\Utility\MessageHandler;
 use Core\Routing\Redirect;
 use Core\Model\Post;
 use Core\Model\User;
@@ -53,13 +54,19 @@ class AuthController
 
         if (isset($_POST["registerSubmit"])) {
 
-            //Todo: Validation of user input and sanitation.
+            // Check if the two passwords match
+            if($_POST["password"] != $_POST["password_confirmation"]) {
+                MessageHandler::add("Passwords don't match!", MessageHandler::STATUS_WARNING);
+                Redirect::to("/register");
+            }
             $user = new User();
             $user->username = $_POST["username"];
             $user->password = $_POST["password"];
             $user->isAdmin = 0;
 
             $user->register();
+
+            // Automatically login in the user after registering.
             $user->login();
         }
     }

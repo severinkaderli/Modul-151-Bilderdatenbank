@@ -9,7 +9,13 @@ use Core\View\View;
 
 class UserController
 {
-    public function index() {
+    /**
+     * Display a list of the users.
+     * 
+     * @return void
+     */
+    public function index()
+    {
         if(!User::isAdmin()) {
             Redirect::to("/");
         }
@@ -20,37 +26,41 @@ class UserController
         $view->render();
     }
 
-    public function delete($id){
+    /**
+     * Deletes the user with the given id.
+     * 
+     * @param  int $id - The id of the user.
+     * @return void
+     */
+    public function destroy($id)
+    {
         if(!User::isAdmin()) {
             Redirect::to("/");
         }
 
+        // Make sure you don't delete your own account
         if($_SESSION["user"]["id"] == $id) {
             Redirect::to("/");
         }
 
         User::delete($id);
 
-        //Delete all posts that belongs to the user
-        $userPosts = Post::getByUserId($id);
-        foreach ($userPosts as $post) {
-            Post::delete($post->id);
-        }
-
-        //Delete all comments that belongs to the user
-        $userComments = Comment::getByUserId($id);
-        foreach($userComments as $comment) {
-            Comment::delete($comment->id);
-        }
         Redirect::to("/users");
     }
 
-    public function promote($id) {
+    /**
+     * Promote the user to an admin.
+     * 
+     * @param  int $id - The id of the user.
+     * @return void
+     */
+    public function promote($id)
+    {
         if(!User::isAdmin()) {
             Redirect::to("/");
         }
 
         User::promote($id);
-        Redirect::tO("/users");
+        Redirect::to("/users");
     }
 }
