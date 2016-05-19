@@ -14,6 +14,24 @@ $router->setBasePath(str_replace("http://" . $_SERVER['SERVER_NAME'], "", BASE_D
 /**
  * Defined routes
  */
+// Authentication
+$router->addRoute("GET", "/logout", "AuthController@logout");
+$router->addRoute("GET", "/login", "AuthController@showLogin");
+$router->addRoute("POST", "/login", "AuthController@login");
+$router->addRoute("GET", "/register", "AuthController@showRegister");
+$router->addRoute("POST", "/register", "AuthController@register");
+
+// User settings
+$router->addRoute("GET", "/settings", "SettingController@showSettings");
+$router->addRoute("POST", "/settings/password", "SettingController@changePassword");
+$router->addRoute("GET", "/settings/delete", "SettingController@deleteUser");
+
+// User management
+$router->addRoute("GET", "/users", "UserController@index");
+$router->addRoute("GET", "/user/{userId}/delete", "UserController@destroy");
+$router->addRoute("GET", "/user/{userId}/promote", "UserController@promote");
+
+
 // General
 $router->addRoute("GET", "", "GalleryController@index");
 $router->addRoute("GET", "/gallery/{galleryId}/delete", "GalleryController@delete");
@@ -27,17 +45,7 @@ $router->addRoute("GET", "/gallery/{galleryId}/unshare", "GalleryController@unSh
 
 $router->addRoute("GET", "/image/{imageId}", "ImageController@show");
 
-// Authentication
-$router->addRoute("GET", "/logout", "AuthController@logout");
-$router->addRoute("GET", "/login", "AuthController@showLogin");
-$router->addRoute("POST", "/login", "AuthController@login");
-$router->addRoute("GET", "/register", "AuthController@showRegister");
-$router->addRoute("POST", "/register", "AuthController@register");
 
-// User management
-$router->addRoute("GET", "/users", "UserController@index");
-$router->addRoute("GET", "/user/{userId}/delete", "UserController@delete");
-$router->addRoute("GET", "/user/{userId}/promote", "UserController@promote");
 
 /**
  * Dispatching and call the matched method
