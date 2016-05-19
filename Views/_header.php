@@ -36,6 +36,7 @@
                 <?php
                 if (Core\Model\User::auth()) {
                     echo "<li><a href='gallery/create'>Galerie erstellen</a></li>";
+                    echo "<li><a href='settings'>Settings</a></li>";
                     if(Core\Model\User::isAdmin()) {
                         echo "<li><a href='users'>Benutzerverwaltung</a></li>";
                     }
