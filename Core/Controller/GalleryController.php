@@ -32,12 +32,49 @@ class GalleryController
         $view->render();
     }
 
+    /**
+     * Display a single gallery with all images.
+     * 
+     * @param  int $id - The id of the gallery
+     * @return void
+     */
+    public function show(int $id)
+    {
+        // If user is not logged in redirect him to the login page
+        if (!User::auth()) {
+            Redirect::to("/login");
+        }
+
+        $gallery = Gallery::find($id);
+        $isOwn = $_SESSION["user"]["id"] == $gallery->fk_user_id;
+        
+        // Redirect when gallery is not shared and not the users.
+        if(!$isOwn && $gallery->is_shared=0) {
+            Redirect::to("/");
+        }
+
+        $view = new View("galleries.show");
+        $view->assign("gallery", $gallery);
+        $view->assign("isOwn", $isOwn);
+        $view->render();
+    }
+
+    /**
+     * Displays the form for creating a new gallery.
+     * 
+     * @return void
+     */
     public function create()
     {
         $view = new View("galleries.create");
         $view->render();
     }
 
+    /**
+     * Stores a new gallery in the database.
+     * 
+     * @return void
+     */
     public function store()
     {
         Gallery::create($_POST);

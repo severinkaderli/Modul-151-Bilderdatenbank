@@ -12,8 +12,9 @@
 }
 
 .icon-links a {
-	color: darkblue;
-	text-decoration: underline;
+	color: #FFF;
+	font-size: 24px;
+	margin: 0 5px;
 }
 
 /**

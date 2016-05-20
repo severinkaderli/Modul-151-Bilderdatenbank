@@ -33,6 +33,7 @@ $router->addRoute("GET", "/user/{userId}/promote", "UserController@promote");
 
 // Galleries
 $router->addRoute("GET", "", "GalleryController@index");
+$router->addRoute("GET", "/gallery/{galleryId}", "GalleryController@show");
 
 
 // General
