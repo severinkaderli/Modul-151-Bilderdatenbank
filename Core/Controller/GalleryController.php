@@ -19,7 +19,6 @@ class GalleryController
      */
     public function index()
     {
-        // If user is not logged in redirect him to the login page
         if (!User::auth()) {
             Redirect::to("/login");
         }
@@ -40,7 +39,6 @@ class GalleryController
      */
     public function show(int $id)
     {
-        // If user is not logged in redirect him to the login page
         if (!User::auth()) {
             Redirect::to("/login");
         }
@@ -81,9 +79,14 @@ class GalleryController
         Redirect::to("/");
     }
 
-    public function edit($id)
+    /**
+     * Display the form to edit a gallery.
+     * 
+     * @param  int $id - The id of the gallery.
+     * @return void
+     */
+    public function edit(int $id)
     {
-        //Check if user is allowed to delete the post
         $gallery = Gallery::find($id);
         if ($_SESSION["user"]["id"] != $gallery->fk_user_id) {
             Redirect::to("/");
@@ -94,9 +97,14 @@ class GalleryController
         $view->render();
     }
 
-    public function update($id)
+    /**
+     * Update a gallery.
+     * 
+     * @param  int $id - The id of the gallery.
+     * @return void
+     */
+    public function update(int $id)
     {
-        //Check if user is allowed to delete the post
         $gallery = Gallery::find($id);
         if ($_SESSION["user"]["id"] != $gallery->fk_user_id) {
             Redirect::to("/");
@@ -105,10 +113,15 @@ class GalleryController
         Redirect::to("/");
     }
 
-    public function delete($id)
+    /**
+     * Delete a gallery.
+     * 
+     * @param  int $id - The id of the gallery.
+     * @return void
+     */
+    public function destroy(int $id)
     {
         $gallery = Gallery::find($id);
-
         if ($gallery->fk_user_id != $_SESSION["user"]["id"]) {
             Redirect::to("/");
         }
@@ -117,30 +130,15 @@ class GalleryController
         Redirect::to("/");
     }
 
-    public function share($id)
-    {
-        Gallery::share($id);
-        Redirect::to("/gallery/" . $id);
-    }
-
-    public function unShare($id)
-    {
-        Gallery::unShare($id);
-        Redirect::to("/gallery/" . $id);
-    }
-
     /**
-     * Uploads one or multiple image to the given gallery.
+     * Upload one or more images to the given gallery.
      * 
+     * @param  int $id - The id of the gallery.
+     * @return void
      */
-    public function upload($id)
+    public function upload(int $id)
     {
-        if (DEBUG) {
-            echo "<pre>";
-            var_dump($_FILES);
-            echo "</pre>";
-        }
-
+        // Loop through each uploaded file
         for ($i = 0, $length = count($_FILES["files"]["name"]); $i < $length; $i++) {
 
             // Check if there were any errors during the upload.
@@ -152,7 +150,6 @@ class GalleryController
             // Check if the file is an image using the getimagesize() function.
             $imageInfo = getimagesize($_FILES["files"]['tmp_name'][$i]);
             if ($imageInfo === false) {
-                //ERROR: NOT IMAGE
                 MessageHandler::add("Please upload an image (.png, .jpg, .gif)!", MessageHandler::STATUS_DANGER);
                 Redirect::to("/gallery/" . $id);
             }
@@ -163,7 +160,7 @@ class GalleryController
                 Redirect::to("/gallery/" . $id);
             }
 
-            // Create a unique file name for the image
+            // Create unique filename and get image size and paths.
             $fileSize = $_FILES["files"]["size"][$i];
             $fileParts = explode(".", $_FILES["files"]["name"][$i]);
             $fileName = strtolower(uniqid() . "." . end($fileParts));
@@ -216,6 +213,7 @@ class GalleryController
                     break;
             }
 
+            // "Resize" the image and save it
             $fullImage = $imageCreateFunction($fullPath);
             $thumbImage = imagecreatetruecolor($imageWidth, $imageHeight);
             imagecopyresized($thumbImage, $fullImage, 0, 0, 0, 0, $imageWidth, $imageHeight, $width, $height);
