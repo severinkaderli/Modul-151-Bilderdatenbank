@@ -74,7 +74,7 @@ $images = Image::getByGalleryId($gallery->id);
 					        <br>
 					        <a href="image/<?php echo $image->id;?>/edit">Bearbeiten</a>
 					        <br>
-					        <a href="image/<?php echo $image->id;?>/delete">Löschen</a>
+					        <a onclick="confirm_delete('Do you really want to delete this image?');"href="image/<?php echo $image->id;?>/delete">Löschen</a>
 					        <?php
 					        endif;
 					        ?>

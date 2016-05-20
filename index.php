@@ -36,6 +36,9 @@ $router->addRoute("GET", "", "GalleryController@index");
 $router->addRoute("GET", "/gallery/{galleryId}", "GalleryController@show");
 
 
+//Images
+$router->addRoute("GET", "/image/{imageId}/delete", "ImageController@destroy");
+
 // General
 
 $router->addRoute("GET", "/gallery/{galleryId}/delete", "GalleryController@delete");
@@ -47,7 +50,7 @@ $router->addRoute("POST", "/gallery/{galleryId}/upload", "GalleryController@uplo
 $router->addRoute("GET", "/gallery/{galleryId}/share", "GalleryController@share");
 $router->addRoute("GET", "/gallery/{galleryId}/unshare", "GalleryController@unShare");
 
-$router->addRoute("GET", "/image/{imageId}", "ImageController@show");
+
 
 
 

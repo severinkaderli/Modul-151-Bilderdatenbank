@@ -6,34 +6,40 @@ use Core\Routing\Redirect;
 use Core\Utility\MessageHandler;
 use Core\Model\Gallery;
 use Core\Model\Image;
-use Core\Model\User;
 use Core\View\View;
 
 class ImageController
 {
+    /**
+     * Delete the image with the given id.
+     * 
+     * @param  int $id - The id of the image.
+     * @return void
+     */
+    public function destroy(int $id)
+    {
+        $image = Image::find($id);
+        $gallery = Gallery::find($image->fk_gallery_id);
+        if($_SESSION["user"]["id"] != $gallery->fk_user_id) {
+            Redirect::to("/");
+        }
 
-    public function checkPermissions() {
+        Image::delete($id);
 
+        Redirect::to("/gallery/" . $gallery->id);
     }
 
     /**
-     * Renders a listing of all blog posts. Only posts of the current page
-     * are shown.
-     *
+     * Show the form to edit an image.
+     * 
+     * @param  int $id - The id of the image.
+     * @return void
      */
-    public function show($id)
+    public function edit(int $id)
     {
-        // If user is not logged in redirect him to the login page
-        if (!User::auth()) {
-            Redirect::to("/login");
-        }
-
-        // Check if user has access to this image
-
-        $view = new View("images.show");
-        $image = Image::find($id);
-        $view->assign("image", $image);
-        $view->assign("gallery", Gallery::find($image->fk_gallery_id));
+        //$tags = Tag::getByImageId($id);
+        $view = new View("images.edit");
         $view->render();
     }
+    
 }
