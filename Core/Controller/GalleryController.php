@@ -146,7 +146,7 @@ class GalleryController
             // Check if there were any errors during the upload.
             if ($_FILES["files"]["error"][$i] !== UPLOAD_ERR_OK) {
                 MessageHandler::add("An error occurred during upload. Please try again!", MessageHandler::STATUS_DANGER);
-                Redirect::to("/");
+                Redirect::to("/gallery/" . $id);
             }
 
             // Check if the file is an image using the getimagesize() function.
@@ -154,16 +154,17 @@ class GalleryController
             if ($imageInfo === false) {
                 //ERROR: NOT IMAGE
                 MessageHandler::add("Please upload an image (.png, .jpg, .gif)!", MessageHandler::STATUS_DANGER);
-                Redirect::to("/");
+                Redirect::to("/gallery/" . $id);
             }
 
             // Check if image is one of the supported formats.
             if (($imageInfo[2] !== IMAGETYPE_GIF) && ($imageInfo[2] !== IMAGETYPE_JPEG) && ($imageInfo[2] !== IMAGETYPE_PNG)) {
-                MessageHandler::add("Please upload a supported image (.png, .jpg, .gif)!", MessageHandler::STATUS_DANGER);
-                Redirect::to("/");
+                MessageHandler::add("Please upload a supported image (.png, .jpg or .gif)!", MessageHandler::STATUS_DANGER);
+                Redirect::to("/gallery/" . $id);
             }
 
             // Create a unique file name for the image
+            $fileSize = $_FILES["files"]["size"][$i];
             $fileParts = explode(".", $_FILES["files"]["name"][$i]);
             $fileName = strtolower(uniqid() . "." . end($fileParts));
             $dbFullPath = "upload/images/" . "full_" . $fileName;
@@ -174,7 +175,7 @@ class GalleryController
             // Move the uploaded file to the /upload/images folder
             if (!move_uploaded_file($_FILES["files"]["tmp_name"][$i], $fullPath)) {
                 MessageHandler::add("An error occurred during upload. Please try again!", MessageHandler::STATUS_DANGER);
-                Redirect::to("/");
+                Redirect::to("/gallery/" . $id);
             }
 
             // Create a thumbnail (100x100) from the uploaded image
@@ -197,16 +198,19 @@ class GalleryController
             // Get the correct PHP function for creating the image
             switch($imageInfo[2]) {
                 case IMAGETYPE_GIF:
+                    $fileType = ".gif";
                     $imageSaveFunction = "ImageGIF";
                     $imageCreateFunction = "ImageCreateFromGIF";
                     break;
 
                 case IMAGETYPE_JPEG:
+                    $fileType = ".jpg";
                     $imageSaveFunction = "ImageJPEG";
                     $imageCreateFunction = "ImageCreateFromJPEG";
                     break;
 
                 case IMAGETYPE_PNG:
+                    $fileType = ".png";
                     $imageSaveFunction = "ImagePNG";
                     $imageCreateFunction = "ImageCreateFromPNG";
                     break;
@@ -221,6 +225,8 @@ class GalleryController
             Image::create([
                 "image_path" =>$dbFullPath,
                 "thumbnail_path" => $dbThumbPath,
+                "size" => $fileSize,
+                "filetype" => $fileType,
                 "gallery_id" => $id
             ]);
             

@@ -44,8 +44,8 @@ $images = Image::getByGalleryId($gallery->id);
             	<div class="uploadForm">
 	            	<form action="gallery/<?php echo $gallery->id;?>/upload" enctype="multipart/form-data" method="POST">
 	            		<div class="form-group">
-	            			<label for="imageUpload">Bilder hochladen: </label>
-	            			<input multiple id="imageUpload" type="file" value="Bilder hochladen" name="files[]">
+	            			<label for="imageUpload">Bilder hochladen (max. 10MB gesamt) </label>
+	            			<input required multiple id="imageUpload" type="file" name="files[]">
 	            		</div>
 	            		<div class="form-group">
 	            			<input type="submit" value="Hochladen">
@@ -57,9 +57,30 @@ $images = Image::getByGalleryId($gallery->id);
             endif;
             foreach($images as $image): ?>
                 <div class="col-md-3 col-xs-6">
-                    <a href="image/<?php echo $image->id;?>" class="thumbnail">
-                        <img src="<?php echo $image->image_path; ?>">
-                    </a>
+                    <div class="thumbnail">
+                        <a target="_blank" href="<?php echo $image->image_path; ?>"><img src="<?php echo $image->thumbnail_path; ?>"></a>
+                        <div class="caption">
+				        <h5>Details</h5>
+				        <small>
+					        Grösse: <?php echo round($image->size / (1000 * 1000), 2); ?>MB
+					        <br>
+					        Dateityp: <?php echo $image->filetype; ?>
+					        <br>
+					        Tags: (Game) (Art)
+					        <?php
+					        if($this->isOwn):
+					        ?>
+					        <br>
+					        <br>
+					        <a href="image/<?php echo $image->id;?>/edit">Bearbeiten</a>
+					        <br>
+					        <a href="image/<?php echo $image->id;?>/delete">Löschen</a>
+					        <?php
+					        endif;
+					        ?>
+					       	</small>
+					    </div>
+                    </div>
                 </div>
             <?php
             endforeach;

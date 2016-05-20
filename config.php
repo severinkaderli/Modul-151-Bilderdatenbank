@@ -44,6 +44,9 @@ define("__ROOT__", __DIR__ . "/");
 define("BASE_DIR", "http://" . dirname($_SERVER['SERVER_NAME'] . $_SERVER['PHP_SELF']));
 
 
+/**
+ * PHP settings
+ */
 setlocale(LC_ALL, LOCALE);
 date_default_timezone_set(TIMEZONE);
 
