@@ -9,6 +9,26 @@
     	}
         return confirm(message);
     }
+
+    // Fixing sizes of thumnails
+    function refreshThumbnails() {
+    	var maxHeight = 0;
+    	$(".thumbnail").each(function() {
+    		if($(this).height() > maxHeight) {
+    			maxHeight = $(this).height();
+    		}
+    	});
+
+    	$(".thumbnail").height(maxHeight);
+    }
+
+    $(window).load(function() {
+    	refreshThumbnails();
+    });
+
+    $(window).resize(function() {
+    	refreshThumbnails();
+    });
 </script>
 </body>
 </html>
