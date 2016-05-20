@@ -11,11 +11,31 @@
     text-align: center;
 }
 
+.icon-links a {
+	color: darkblue;
+	text-decoration: underline;
+}
+
 /**
  * Galleries
  */
-.gallery__header > h1 {
-	border-bottom: 1px solid black;
+.gallery {
+	position: relative;
+}
+
+.gallery__header > h3 {
+	margin-top: 10px;
+}
+
+.gallery__user {
+	color: white;
+	position: absolute;
+	top: 5px;
+	right: 5px;
+}
+
+.gallery__button {
+	text-align: center;
 }
 
 .single-image {

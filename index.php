@@ -31,9 +31,12 @@ $router->addRoute("GET", "/users", "UserController@index");
 $router->addRoute("GET", "/user/{userId}/delete", "UserController@destroy");
 $router->addRoute("GET", "/user/{userId}/promote", "UserController@promote");
 
+// Galleries
+$router->addRoute("GET", "", "GalleryController@index");
+
 
 // General
-$router->addRoute("GET", "", "GalleryController@index");
+
 $router->addRoute("GET", "/gallery/{galleryId}/delete", "GalleryController@delete");
 $router->addRoute("GET", "/gallery/create", "GalleryController@create");
 $router->addRoute("POST", "/gallery", "GalleryController@store");

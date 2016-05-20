@@ -34,7 +34,6 @@ class Model
      */
     public static function find($id)
     {
-        echo static::$table;
         $result = DatabaseConnection::getResult("SELECT * FROM " . static::$table . " WHERE id=:id", [":id" => $id]);
         if (empty($result)) {
             return null;
@@ -73,9 +72,9 @@ class Model
     /**
      * Delete the entry with the given id from the database.
      *
-     * @param $id
+     * @param int $id
      */
-    public static function delete($id) {
+    public static function delete(int $id) {
         DatabaseConnection::insert("DELETE FROM " . static::$table . " WHERE id=:id", [":id" => $id]);
     }
 

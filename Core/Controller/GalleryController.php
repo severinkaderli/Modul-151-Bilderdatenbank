@@ -12,9 +12,10 @@ use Core\View\View;
 class GalleryController
 {
     /**
-     * Renders a listing of all blog posts. Only posts of the current page
-     * are shown.
-     *
+     * Display the list of all galleries of the user and the ones that
+     * are shared.
+     * 
+     * @return void
      */
     public function index()
     {
@@ -23,8 +24,11 @@ class GalleryController
             Redirect::to("/login");
         }
 
+        $galleries = Gallery::getByUserId($_SESSION["user"]["id"]);
+        $sharedGalleries = Gallery::getShared();
         $view = new View("galleries.index");
-        $view->assign("galleries", Gallery::getByUserId($_SESSION["user"]["id"]));
+        $view->assign("galleries", $galleries);
+        $view->assign("sharedGalleries", $sharedGalleries);
         $view->render();
     }
 
@@ -70,17 +74,6 @@ class GalleryController
 
         if ($gallery->fk_user_id != $_SESSION["user"]["id"]) {
             Redirect::to("/");
-        }
-
-        // Delete all the images of this gallery
-        $images = Image::getByGalleryId($id);
-        foreach($images as $image) {
-            // Delete images from disk
-            unlink(__ROOT__ . $image->image_path);
-            unlink(__ROOT__ . $image->thumbnail_path);
-
-            // Delete the image from the db
-            Image::delete($id);
         }
 
         Gallery::delete($id);
