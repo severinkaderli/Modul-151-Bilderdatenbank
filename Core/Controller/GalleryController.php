@@ -2,11 +2,13 @@
 
 namespace Core\Controller;
 
+use Core\Database\DatabaseConnection;
 use Core\Routing\Redirect;
 use Core\Utility\MessageHandler;
 use Core\Model\Gallery;
 use Core\Model\Image;
 use Core\Model\User;
+use Core\Model\Tag;
 use Core\View\View;
 
 class GalleryController
@@ -54,6 +56,7 @@ class GalleryController
         $view = new View("galleries.show");
         $view->assign("gallery", $gallery);
         $view->assign("isOwn", $isOwn);
+        $view->assign("tags", Tag::getAll());
         $view->render();
     }
 
@@ -227,6 +230,18 @@ class GalleryController
                 "filetype" => $fileType,
                 "gallery_id" => $id
             ]);
+
+            // Get id of the new image
+            $imageId = DatabaseConnection::lastInsertId();
+
+            // Save tags with the image
+            foreach($_POST["tags"] as $tagId) {
+                $tag = Tag::find($tagId);
+                DatabaseConnection::insert("INSERT INTO images_tags(fk_image_id, fk_tag_id) VALUES(:image_id, :tag_id)", [
+                    ":image_id" => $imageId,
+                    ":tag_id" => $tag->id
+                ]);
+            }
             
         }
 

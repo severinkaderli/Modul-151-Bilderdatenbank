@@ -65,4 +65,9 @@ class DatabaseConnection
         $stmt->execute($parameter);
     }
 
+    public static function lastInsertId()
+    {
+        return self::$pdo->lastInsertId();
+    }
+
 }

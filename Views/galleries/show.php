@@ -2,6 +2,7 @@
 
 use Core\Model\User;
 use Core\Model\Image;
+use Core\Model\Tag;
 
 require_once(__ROOT__ . "Views/_header.php");
 
@@ -41,22 +42,63 @@ $images = Image::getByGalleryId($gallery->id);
             if($this->isOwn):
             ?>
             <div class="col-md-12">
+                <h2>Upload</h2>
             	<div class="uploadForm">
 	            	<form action="gallery/<?php echo $gallery->id;?>/upload" enctype="multipart/form-data" method="POST">
 	            		<div class="form-group">
 	            			<label for="imageUpload">Bilder hochladen (max. 10MB gesamt) </label>
 	            			<input required multiple id="imageUpload" type="file" name="files[]">
 	            		</div>
+                        <div class="form-group">
+                            <label for="tags">Bilder taggen (Mehrfachauswahl möglich) </label>
+                            <br>
+                            <select class="form-control" multiple name="tags[]" id="tags">
+                                <?php
+                                    foreach($this->tags as $tag){
+                                        echo "<option value='" . $tag->id . "'>";
+                                            echo $tag->tag;
+                                        echo "</option>";
+                                    }
+                                ?>
+                            </select>
+                        </div>
 	            		<div class="form-group">
-	            			<input type="submit" value="Hochladen">
+	            			<input class="btn btn-primary" type="submit" value="Hochladen">
 	            		</div>
 	            	</form>
             	</div>
+                <hr>
             </div>
             <?php
             endif;
-            foreach($images as $image): ?>
-                <div class="col-md-3 col-xs-6">
+            ?>
+            <div class="col-md-12">
+            <h2>Bilder</h2>
+            <form>
+                <div class="form-group">
+                    <label for="search">Suche nach Tags (Mehrfachauswahl möglich)</label>
+                    <select class="form-control" multiple name="tags[]" id="tags">
+                        <?php
+                            foreach($this->tags as $tag){
+                                echo "<option value='" . $tag->id . "'>";
+                                    echo $tag->tag;
+                                echo "</option>";
+                            }
+                        ?>
+                    </select>
+                </div>
+            </form>
+            <?php
+            foreach($images as $image):
+                $imageTags = Tag::getByImageId($image->id);
+                $tags = "";
+                $dataTags = "";
+                foreach ($imageTags as $tag) {
+                    $dataTags .= $tag->tag . ",";
+                    $tags .= "<span class='label label-primary'>" . $tag->tag ."</span> ";
+                }
+            ?>
+                <div data-tags="<?php echo rtrim($dataTags, ",");?>" class="col-md-3 col-xs-6">
                     <div class="thumbnail">
                         <a target="_blank" href="<?php echo $image->image_path; ?>"><img src="<?php echo $image->thumbnail_path; ?>"></a>
                         <div class="caption">
@@ -66,7 +108,7 @@ $images = Image::getByGalleryId($gallery->id);
 					        <br>
 					        Dateityp: <?php echo $image->filetype; ?>
 					        <br>
-					        Tags: (Game) (Art)
+					        Tags: <?php echo $tags;?>
 					        <?php
 					        if($this->isOwn):
 					        ?>
@@ -85,6 +127,7 @@ $images = Image::getByGalleryId($gallery->id);
             <?php
             endforeach;
             ?>
+            </div>
             </section>     
         </div>
     </div>

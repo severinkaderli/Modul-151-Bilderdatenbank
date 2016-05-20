@@ -21,6 +21,20 @@ class Image extends Model
     }
 
     /**
+     * Delete the image and all images_tags rows from this image.
+     * 
+     * @param  int $id - The id of the image
+     * @return void
+     */
+    public static function delete(int $id)
+    {
+        parent::delete($id);
+        DatabaseConnection::insert("DELETE FROM images_tags WHERE fk_image_id=:image_id", [
+            ":image_id" => $id
+        ]);
+    }
+
+    /**
      * @param  array  $fields
      * @return void
      */
@@ -57,5 +71,7 @@ class Image extends Model
 
         return $images;
     }
+
+
 
 }
