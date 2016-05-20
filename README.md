@@ -20,5 +20,15 @@ Projekt, welches ich im Rahmen des Modul 151 an der gibb erstellt habe.
 - Galerie-Übersicht (Eigene & Öffentliche) mit Thumbnails ✓
 - Einzelne Galerie anschauen ✓
 - Galerien bearbeiten (Name) (Zusatz) ✓
-- Galerien löschen (Zusatz) ✓
+- Galerien löschen (inklusive dazugehöriger Bilder) (Zusatz) ✓
 - Galerien teilen (Zusatz) ✓
+
+### Bilder
+- Bilderupload zu einer Galerie ✓
+- Mehrfachupload möglich (Zusatz) ✓
+- Bild wird auf Server gespeichert (Keine doppelten Namen) ✓
+- Thumbnail wird generiert (100x100px) ✓
+- Anzeigen der Thumbnails einer Galerie ✓
+- Orignalbild bei Klick wird angezeigt ✓
+- Bilder löschen (Inklusive Dateien) ✓
+- Metadaten zu Bildern anzeigen (Zusatz) ✓
