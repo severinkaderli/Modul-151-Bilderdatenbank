@@ -42,6 +42,8 @@ $router->addRoute("GET", "/gallery/{galleryId}/delete", "GalleryController@destr
 $router->addRoute("POST", "/gallery/{galleryId}/upload", "GalleryController@upload");
 
 //Images
+$router->addRoute("GET", "/image/{imageId}/edit", "ImageController@edit");
+$router->addRoute("POST", "/image/{imageId}", "ImageController@update");
 $router->addRoute("GET", "/image/{imageId}/delete", "ImageController@destroy");
 
 // General

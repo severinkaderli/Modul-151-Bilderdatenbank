@@ -32,6 +32,7 @@ Projekt, welches ich im Rahmen des Modul 151 an der gibb erstellt habe.
 - Orignalbild bei Klick wird angezeigt ✓
 - Bilder können beim Upload mit mehreren Tags versehen werden. ✓
 - Bilder löschen (Inklusive Dateien) ✓
+- 
 - Metadaten zu Bildern anzeigen (Zusatz) ✓
 
 ### Suche

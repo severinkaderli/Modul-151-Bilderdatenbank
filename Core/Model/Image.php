@@ -35,7 +35,9 @@ class Image extends Model
     }
 
     /**
-     * @param  array  $fields
+     * Create a new image.
+     * 
+     * @param array $fields
      * @return void
      */
     public static function create(array $fields) {
@@ -51,7 +53,28 @@ class Image extends Model
     }
 
     /**
-     * Return comments by post id
+     * Update tags of an image
+     *
+     * @param int $id - The id of the image
+     * @param array $fields
+     * @return void
+     */
+    public static function update(int $id, array $fields)
+    {
+        DatabaseConnection::insert("DELETE FROM images_tags WHERE fk_image_id=:image_id", [
+            ":image_id" => $id
+        ]);
+
+        foreach($fields["tags"] as $tagId) {
+            DatabaseConnection::insert("INSERT INTO images_tags (fk_image_id, fk_tag_id) VALUES (:image_id, :tag_id)", [
+                ":image_id" => $id,
+                ":tag_id" => $tagId
+            ]);
+        }
+    }
+
+    /**
+     * Return all images of a gallery.
      *
      * @param int $galleryId
      * @return array

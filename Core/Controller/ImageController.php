@@ -6,6 +6,7 @@ use Core\Routing\Redirect;
 use Core\Utility\MessageHandler;
 use Core\Model\Gallery;
 use Core\Model\Image;
+use Core\Model\Tag;
 use Core\View\View;
 
 class ImageController
@@ -37,9 +38,32 @@ class ImageController
      */
     public function edit(int $id)
     {
-        //$tags = Tag::getByImageId($id);
+        $tags = Tag::getAll();
+        $imageTags = Tag::getByImageId($id);
+        $selectedTags = [];
+        foreach($imageTags as $imageTag) {
+            $selectedTags[] = $imageTag->id;
+        }
         $view = new View("images.edit");
+        $view -> assign("tags", $tags);
+        $view->assign("selectedTags", $selectedTags);
+        $view -> assign("image", Image::find($id));
         $view->render();
     }
+
+    /**
+     * Update the image with the given id.
+     * 
+     * @param  int $id - The id of the image.
+     * @return void
+     */
+    public function update(int $id)
+    {
+        $image = Image::find($id);
+        Image::update($id, $_POST);
+        Redirect::to("/gallery/" . $image->fk_gallery_id);
+    }
+
+
     
 }

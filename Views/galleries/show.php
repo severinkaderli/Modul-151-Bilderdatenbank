@@ -102,11 +102,10 @@ $images = Image::getByGalleryId($gallery->id);
                     <div class="thumbnail">
                         <a target="_blank" href="<?php echo $image->image_path; ?>"><img src="<?php echo $image->thumbnail_path; ?>"></a>
                         <div class="caption">
-				        <h5>Details</h5>
 				        <small>
-                            Dimensionen: <?php echo $image->width . "x" .$image->height . "px";?>
+                            Grösse: <?php echo $image->width . "x" .$image->height . "px";?>
                             <br>
-					        Dateirösse: <?php echo round($image->size / (1000 * 1000), 2); ?>MB
+					        Dateigrösse: <?php echo round($image->size / (1000 * 1000), 2); ?>MB
 					        <br>
 					        Dateityp: <?php echo $image->filetype; ?>
 					        <br>
