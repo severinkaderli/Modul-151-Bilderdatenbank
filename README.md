@@ -39,3 +39,7 @@ Projekt, welches ich im Rahmen des Modul 151 an der gibb erstellt habe.
 - Suche nach getaggten Bildern ✓
 - Dropdown Liste mit vorhandenen Tags (Zusatz) ✓
 - Suche nach mehreren Tags gleichzeitig (Zusatz) ✓
+
+## Weitere Informationen
+Weitere Informationen zum Projekt kann man in der Datei
+Projektdokumentation.docx nachlesen.
