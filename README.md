@@ -33,3 +33,8 @@ Projekt, welches ich im Rahmen des Modul 151 an der gibb erstellt habe.
 - Bilder können beim Upload mit mehreren Tags versehen werden. ✓
 - Bilder löschen (Inklusive Dateien) ✓
 - Metadaten zu Bildern anzeigen (Zusatz) ✓
+
+### Suche
+- Suche nach getaggten Bildern ✓
+- Dropdown Liste mit vorhandenen Tags (Zusatz) ✓
+- Suche nach mehreren Tags gleichzeitig (Zusatz) ✓
