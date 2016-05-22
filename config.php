@@ -8,7 +8,7 @@ session_regenerate_id();
 /**
  * Debugging
  */
-define("DEBUG", true);
+define("DEBUG", false);
 
 if(DEBUG) {
     error_reporting(E_ALL);
