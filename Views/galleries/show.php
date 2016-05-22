@@ -76,8 +76,8 @@ $images = Image::getByGalleryId($gallery->id);
             <h2>Bilder</h2>
             <form>
                 <div class="form-group">
-                    <label for="search">Suche nach Tags (Mehrfachauswahl möglich)</label>
-                    <select class="form-control" multiple name="tags[]" id="tags">
+                    <label for="searchTags">Suche nach Tags (Mehrfachauswahl möglich)</label>
+                    <select class="form-control" multiple name="searchTags[]" id="searchTags">
                         <?php
                             foreach($this->tags as $tag){
                                 echo "<option value='" . $tag->id . "'>";
@@ -94,7 +94,7 @@ $images = Image::getByGalleryId($gallery->id);
                 $tags = "";
                 $dataTags = "";
                 foreach ($imageTags as $tag) {
-                    $dataTags .= $tag->tag . ",";
+                    $dataTags .= $tag->id . ",";
                     $tags .= "<span class='label label-primary'>" . $tag->tag ."</span> ";
                 }
             ?>
@@ -104,7 +104,9 @@ $images = Image::getByGalleryId($gallery->id);
                         <div class="caption">
 				        <h5>Details</h5>
 				        <small>
-					        Grösse: <?php echo round($image->size / (1000 * 1000), 2); ?>MB
+                            Dimensionen: <?php echo $image->width . "x" .$image->height . "px";?>
+                            <br>
+					        Dateirösse: <?php echo round($image->size / (1000 * 1000), 2); ?>MB
 					        <br>
 					        Dateityp: <?php echo $image->filetype; ?>
 					        <br>

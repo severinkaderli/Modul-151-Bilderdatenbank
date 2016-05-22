@@ -39,11 +39,13 @@ class Image extends Model
      * @return void
      */
     public static function create(array $fields) {
-        DatabaseConnection::insert("INSERT INTO images(image_path, thumbnail_path, size, filetype, fk_gallery_id) VALUES(:image_path, :thumbnail_path, :size, :filetype, :gallery_id)", [
+        DatabaseConnection::insert("INSERT INTO images(image_path, thumbnail_path, size, filetype, width, height,fk_gallery_id) VALUES(:image_path, :thumbnail_path, :size, :filetype, :width, :height, :gallery_id)", [
             "image_path" => $fields["image_path"],
             "thumbnail_path" => $fields["thumbnail_path"],
             "size" => $fields["size"],
             "filetype" => $fields["filetype"],
+            "width" => $fields["width"],
+            "height" => $fields["height"],
             "gallery_id" => $fields["gallery_id"]
             ]);
     }

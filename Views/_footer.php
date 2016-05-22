@@ -29,6 +29,35 @@
     $(window).resize(function() {
     	refreshThumbnails();
     });
+
+    // Search for tags
+    $("#searchTags").on("input", function() {
+        // Hide all images
+        $(".thumbnail").parent().hide();
+
+        if($(this).val() == null) {
+            // If no search tags are selected then show everything
+            $(".thumbnail").parent().show();
+        } else {
+            // Only show images that have tags that are selected
+            var searchTags = $(this).val();
+            $(".thumbnail").parent().each(function() {
+                
+                // Get tags from the image
+                var imageTags = $(this).data("tags");
+                imageTags = String(imageTags).split(",");
+                
+                // Returns true if image has a tag that is selected
+                var hasTag = imageTags.some(function (v) {
+                    return searchTags.indexOf(v) >= 0;
+                });
+
+                if(hasTag) {
+                    $(this).show();
+                }
+            });
+        }
+    });
 </script>
 </body>
 </html>

@@ -228,6 +228,8 @@ class GalleryController
                 "thumbnail_path" => $dbThumbPath,
                 "size" => $fileSize,
                 "filetype" => $fileType,
+                "width" => $width,
+                "height" => $height,
                 "gallery_id" => $id
             ]);
 
