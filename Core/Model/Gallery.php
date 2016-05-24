@@ -42,11 +42,6 @@ class Gallery extends Model
         // Delete all the images of this gallery
         $images = Image::getByGalleryId($id);
         foreach($images as $image) {
-            // Delete images from disk
-            unlink(__ROOT__ . $image->image_path);
-            unlink(__ROOT__ . $image->thumbnail_path);
-
-            // Delete the image from the db
             Image::delete($id);
         }
     }

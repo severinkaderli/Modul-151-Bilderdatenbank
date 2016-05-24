@@ -219,6 +219,7 @@ class GalleryController
             // "Resize" the image and save it
             $fullImage = $imageCreateFunction($fullPath);
             $thumbImage = imagecreatetruecolor($imageWidth, $imageHeight);
+
             imagecopyresized($thumbImage, $fullImage, 0, 0, 0, 0, $imageWidth, $imageHeight, $width, $height);
             $imageSaveFunction($thumbImage, $thumbPath);
 

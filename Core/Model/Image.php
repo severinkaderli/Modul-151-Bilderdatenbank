@@ -28,6 +28,10 @@ class Image extends Model
      */
     public static function delete(int $id)
     {
+        $image = Image::find($id);
+        unlink(__ROOT__ . $image->image_path);
+        unlink(__ROOT__ . $image->thumbnail_path);
+
         parent::delete($id);
         DatabaseConnection::insert("DELETE FROM images_tags WHERE fk_image_id=:image_id", [
             ":image_id" => $id
