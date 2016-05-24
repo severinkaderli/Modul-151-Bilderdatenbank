@@ -15,7 +15,7 @@
 foreach ($this->users as $user) {
     echo "<tr>";
         echo "<td>" . $user->id . "</td>";
-        echo "<td>" . $user->username . "</td>";
+        echo "<td>" . htmlspecialchars($user->username) . "</td>";
         if($user->is_admin == 1) {
             echo "<td>Admin</td>";
         } else {

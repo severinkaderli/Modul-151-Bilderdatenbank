@@ -16,7 +16,7 @@ foreach ($this->galleries as $gallery):
         <div class="gallery panel panel-primary">
             <header class="gallery__header panel-heading">
                 <h3>
-                <?php echo $gallery->name;?>
+                <?php echo htmlspecialchars($gallery->name);?>
                 <small class="icon-links pull-right">
                     <?php
                     if (isset($_SESSION["user"]["id"])) {
@@ -66,9 +66,9 @@ foreach ($this->sharedGalleries as $sharedGallery):
         <div class="gallery  panel panel-primary">
             <header class="gallery__header panel-heading">
                 <h3>
-                <?php echo $sharedGallery->name;?>
+                <?php echo htmlspecialchars($sharedGallery->name);?>
                 <small class="gallery__user pull-right">
-                von <?php echo $user->username;?>
+                von <?php echo htmlspecialchars($user->username);?>
                 </small>
                 </h3>
             </header>

@@ -13,7 +13,7 @@ $images = Image::getByGalleryId($gallery->id);
         <div class="gallery panel panel-primary">
             <header class="gallery__header panel-heading">
                 <h3>
-                <?php echo $gallery->name;
+                <?php echo htmlspecialchars($gallery->name);
                 if($this->isOwn):
                 ?>
                 <small class="icon-links pull-right">
@@ -30,7 +30,7 @@ $images = Image::getByGalleryId($gallery->id);
                 else:
                 ?>
             	<small class="gallery__user">
-            	<?php echo "von " . $user->username;?>
+            	<?php echo "von " . htmlspecialchars($user->username);?>
             	</small>
             	<?php
             	endif;
@@ -56,7 +56,7 @@ $images = Image::getByGalleryId($gallery->id);
                                 <?php
                                     foreach($this->tags as $tag){
                                         echo "<option value='" . $tag->id . "'>";
-                                            echo $tag->tag;
+                                            echo htmlspecialchars($tag->tag);
                                         echo "</option>";
                                     }
                                 ?>
@@ -81,7 +81,7 @@ $images = Image::getByGalleryId($gallery->id);
                         <?php
                             foreach($this->tags as $tag){
                                 echo "<option value='" . $tag->id . "'>";
-                                    echo $tag->tag;
+                                    echo htmlspecialchars($tag->tag);
                                 echo "</option>";
                             }
                         ?>
@@ -95,7 +95,7 @@ $images = Image::getByGalleryId($gallery->id);
                 $dataTags = "";
                 foreach ($imageTags as $tag) {
                     $dataTags .= $tag->id . ",";
-                    $tags .= "<span class='label label-primary'>" . $tag->tag ."</span> ";
+                    $tags .= "<span class='label label-primary'>" . htmlspecialchars($tag->tag) ."</span> ";
                 }
             ?>
                 <div data-tags="<?php echo rtrim($dataTags, ",");?>" class="col-md-3 col-xs-6">
