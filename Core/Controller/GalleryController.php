@@ -220,6 +220,11 @@ class GalleryController
             $fullImage = $imageCreateFunction($fullPath);
             $thumbImage = imagecreatetruecolor($imageWidth, $imageHeight);
 
+            // If the image is a png keep the transparency
+            if($imageInfo[2]) {
+                imagecolortransparent($thumbImage, imagecolorallocate($thumbImage, 0, 0, 0));
+            }
+
             imagecopyresized($thumbImage, $fullImage, 0, 0, 0, 0, $imageWidth, $imageHeight, $width, $height);
             $imageSaveFunction($thumbImage, $thumbPath);
 
