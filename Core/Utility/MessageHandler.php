@@ -13,7 +13,7 @@ class MessageHandler
 	const STATUS_WARNING = 2;
 	const STATUS_DANGER = 3;
 
-	public static function add(string $message, int $status)
+	public static function add($message, $status)
 	{
 		$_SESSION["messages"][] = ["message" => $message, "status" => $status];
 	}

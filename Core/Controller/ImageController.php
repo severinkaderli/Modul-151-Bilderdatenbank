@@ -17,7 +17,7 @@ class ImageController
      * @param  int $id - The id of the image.
      * @return void
      */
-    public function destroy(int $id)
+    public function destroy($id)
     {
         $image = Image::find($id);
         $gallery = Gallery::find($image->fk_gallery_id);
@@ -36,7 +36,7 @@ class ImageController
      * @param  int $id - The id of the image.
      * @return void
      */
-    public function edit(int $id)
+    public function edit($id)
     {
         $tags = Tag::getAll();
         $imageTags = Tag::getByImageId($id);
@@ -57,7 +57,7 @@ class ImageController
      * @param  int $id - The id of the image.
      * @return void
      */
-    public function update(int $id)
+    public function update($id)
     {
         $image = Image::find($id);
         Image::update($id, $_POST);

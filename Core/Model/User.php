@@ -94,7 +94,7 @@ class User extends Model
      * @param  int $id
      * @return void
      */
-    public static function delete(int $id)
+    public static function delete($id)
     {
         parent::delete($id);
         $galleries = Gallery::getByUserId($id);

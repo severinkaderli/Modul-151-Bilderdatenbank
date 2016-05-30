@@ -39,7 +39,7 @@ class GalleryController
      * @param  int $id - The id of the gallery
      * @return void
      */
-    public function show(int $id)
+    public function show($id)
     {
         if (!User::auth()) {
             Redirect::to("/login");
@@ -88,7 +88,7 @@ class GalleryController
      * @param  int $id - The id of the gallery.
      * @return void
      */
-    public function edit(int $id)
+    public function edit($id)
     {
         $gallery = Gallery::find($id);
         if ($_SESSION["user"]["id"] != $gallery->fk_user_id) {
@@ -106,7 +106,7 @@ class GalleryController
      * @param  int $id - The id of the gallery.
      * @return void
      */
-    public function update(int $id)
+    public function update($id)
     {
         $gallery = Gallery::find($id);
         if ($_SESSION["user"]["id"] != $gallery->fk_user_id) {
@@ -122,7 +122,7 @@ class GalleryController
      * @param  int $id - The id of the gallery.
      * @return void
      */
-    public function destroy(int $id)
+    public function destroy($id)
     {
         $gallery = Gallery::find($id);
         if ($gallery->fk_user_id != $_SESSION["user"]["id"]) {
@@ -139,7 +139,7 @@ class GalleryController
      * @param  int $id - The id of the gallery.
      * @return void
      */
-    public function upload(int $id)
+    public function upload($id)
     {
         // Loop through each uploaded file
         for ($i = 0, $length = count($_FILES["files"]["name"]); $i < $length; $i++) {

@@ -20,7 +20,7 @@ class Tag extends Model
        parent::__construct();
     }
 
-    public static function getByImageId(int $imageId) {
+    public static function getByImageId($imageId) {
         $entities = [];
         $sqlResult = DatabaseConnection::getResult("SELECT t.id, t.tag FROM tags as t LEFT JOIN images_tags as it ON t.id=it.fk_tag_id LEFT JOIN images as i ON i.id=it.fk_image_id WHERE i.id=:image_id", [":image_id" => $imageId]);
 

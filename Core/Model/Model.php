@@ -74,7 +74,7 @@ class Model
      *
      * @param int $id
      */
-    public static function delete(int $id) {
+    public static function delete($id) {
         DatabaseConnection::insert("DELETE FROM " . static::$table . " WHERE id=:id", [":id" => $id]);
     }
 

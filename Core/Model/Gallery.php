@@ -34,7 +34,7 @@ class Gallery extends Model
      * @param  int $id - The id of the gallery.
      * @return void
      */
-    public static function delete(int $id)
+    public static function delete($id)
     {
         parent::delete($id);
 
@@ -52,7 +52,7 @@ class Gallery extends Model
      * @param int $userId
      * @return array
      */
-    public static function getByUserId(int $userId) : array
+    public static function getByUserId($userId)
     {
         $result = [];
         $sqlResult = DatabaseConnection::getResult("SELECT * FROM galleries WHERE fk_user_id=:user_id", ["user_id" => $userId]);
@@ -74,7 +74,7 @@ class Gallery extends Model
      * 
      * @return array
      */
-    public static function getShared() : array
+    public static function getShared()
     {
         $result = [];
         $sqlResult = DatabaseConnection::getResult("SELECT * FROM galleries WHERE is_shared=1 AND fk_user_id <> :current_user_id", ["current_user_id" => $_SESSION["user"]["id"]]);
@@ -97,7 +97,7 @@ class Gallery extends Model
      * @param  int $galleryId - The id of the gallery.
      * @return void
      */
-    public static function share(int $galleryId)
+    public static function share($galleryId)
     {
         DatabaseConnection::insert("UPDATE galleries SET is_shared=:is_shared WHERE id=:gallery_id",[
             "is_shared" => 1,
@@ -111,7 +111,7 @@ class Gallery extends Model
      * @param  int $galleryId - The id of the gallery.
      * @return void
      */
-    public static function unShare(int $galleryId)
+    public static function unShare($galleryId)
     {
         DatabaseConnection::insert("UPDATE galleries SET is_shared=:is_shared WHERE id=:gallery_id",[
             "is_shared" => 0,

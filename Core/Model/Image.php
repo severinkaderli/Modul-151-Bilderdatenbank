@@ -26,7 +26,7 @@ class Image extends Model
      * @param  int $id - The id of the image
      * @return void
      */
-    public static function delete(int $id)
+    public static function delete($id)
     {
         $image = Image::find($id);
         unlink(__ROOT__ . $image->image_path);
@@ -63,7 +63,7 @@ class Image extends Model
      * @param array $fields
      * @return void
      */
-    public static function update(int $id, array $fields)
+    public static function update($id, array $fields)
     {
         DatabaseConnection::insert("DELETE FROM images_tags WHERE fk_image_id=:image_id", [
             ":image_id" => $id
@@ -83,7 +83,7 @@ class Image extends Model
      * @param int $galleryId
      * @return array
      */
-    public static function getByGalleryId(int $galleryId) : array
+    public static function getByGalleryId($galleryId)
     {
         $images = [];
         $sqlResult = DatabaseConnection::getResult("SELECT * FROM images WHERE fk_gallery_id=:galleryId", ["galleryId" => $galleryId]);
