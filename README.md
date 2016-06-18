@@ -74,6 +74,6 @@ Nachfolgend ist die Ordnerstruktur der Bilderdatenbank erklärt:
   * Hier befinden sich die Views die dann für den Benutzer sichtbar sind.
 
 ## Installation
-1. Das Repository klonen
+1. Das Repository klonen.
 2. Einstellungen in config.php anpassen.
-3. Datenbank von imagedb.sql importieren
+3. Datenbank von imagedb.sql importieren.
